@@ -1,0 +1,221 @@
+<ion-header>
+  <ion-toolbar color="primary" fixed>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #container scrollEvents="true" padding>
+
+  <ion-grid fixed>
+
+    <ion-row justify-content-center *ngIf="isContentViewVisible">
+      <ion-col size-xs="12" size-lg="10">
+
+        <div>
+          <ion-list lines="none">
+            <ion-list-header>
+              <span class="bold" ion-text color="dark">
+                {{ 'ORDER' | translate }} #{{ order?.number }}
+              </span>
+            </ion-list-header>
+
+            <ion-list no-padding>
+              <ion-item color="light" *ngFor="let item of order?.items">
+                <ion-thumbnail slot="start">
+                  <img src="./assets/imgs/placeholder.png" [lazyLoad]="item.featuredImageThumb?.url()"
+                    [scrollObservable]="container.ionScroll" />
+                </ion-thumbnail>
+                <ion-label text-wrap>
+                  <ion-text color="dark">
+                    <p>{{ item.qty }} x {{ item.name }}</p>
+                    <p  *ngIf="item.salePrice">
+                      <span>{{ item.salePrice | currency }}</span>
+                      <ion-text color="medium">
+                        <s>{{ item.price | currency }}</s>
+                      </ion-text>
+                    </p>
+                    <p *ngIf="!item.salePrice">
+                      {{ item.price | currency }}
+                    </p>
+                  </ion-text>
+
+                </ion-label>
+
+                <div slot="end">
+                  <ion-text color="dark">
+                    <p>{{ item.amount | currency }}</p>
+                  </ion-text>
+                </div>
+
+              </ion-item>
+              <div class="divider"></div>
+
+              <ion-item color="light">
+                <ion-label>
+                  <ion-text color="dark">
+                    <p>{{ 'SUBTOTAL' | translate }}</p>
+                  </ion-text>
+                </ion-label>
+
+                <div slot="end">
+                  <ion-text color="dark">
+                    <p>{{ order?.subtotal | currency }}</p>
+                  </ion-text>
+                </div>
+              </ion-item>
+
+              <ion-item color="light" *ngIf="order?.shipping?.subzone?.fee">
+                <ion-label>
+                  <ion-text color="dark">
+                    <p>{{ 'SHIPPING_FEE' | translate }}</p>
+                  </ion-text>
+                </ion-label>
+
+                <div slot="end">
+                  <ion-text color="dark">
+                    <p>{{ order?.shipping.subzone.fee | currency }}</p>
+                  </ion-text>
+                </div>
+              </ion-item>
+
+              <ion-item color="light">
+                <ion-label>
+                  <ion-text color="dark">
+                    <p>{{ 'TOTAL' | translate }}</p>
+                  </ion-text>
+                </ion-label>
+
+                <div slot="end">
+                  <ion-text color="dark">
+                    <p>{{ order?.total | currency }}</p>
+                  </ion-text>
+                </div>
+              </ion-item>
+
+
+            </ion-list>
+
+            <ion-list-header>
+              <ion-text class="bold" color="dark">
+                {{ 'SHIPPING_ADDRESS' | translate }}
+              </ion-text>
+            </ion-list-header>
+
+            <ion-list no-padding>
+
+              <ion-item color="light">
+                <ion-label>
+                  <ion-text color="dark">
+                    <p>{{ order?.shipping.address }}</p>
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+
+            <ion-list-header>
+              <ion-text class="bold" color="dark">
+                {{ 'PAYMENT' | translate }}
+              </ion-text>
+            </ion-list-header>
+
+
+            <ion-list no-padding>
+
+              <ion-item color="light" *ngIf="order?.paymentMethod === 'Cash'">
+                <img src="./assets/imgs/cash.png" width="40" slot="start" />
+                <ion-label>
+                  <p>{{ 'CASH' | translate }}</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item color="light" *ngIf="order?.card">
+                <img src="./assets/imgs/{{formatBrand()}}.png" width="40" slot="start" />
+                <ion-label>
+                  <p *ngIf="order?.card">
+                    &#8226;&#8226;&#8226;&#8226; {{ order?.card.last4 }}
+                  </p>
+                </ion-label>
+              </ion-item>
+
+            </ion-list>
+
+            <ion-list-header>
+              <ion-text color="dark">
+                <span class="bold">
+                  {{ 'MORE_INFO' | translate }}
+                </span>
+              </ion-text>
+
+            </ion-list-header>
+
+            <ion-list no-padding>
+
+              <ion-item color="light">
+                <ion-label>
+                  <p>{{ 'STATUS' | translate }}</p>
+                </ion-label>
+
+                <div class="text-medium" slot="end">
+                  <span *ngIf="order?.status === 'Unpaid'">{{ 'UNPAID' | translate }}</span>
+                  <span *ngIf="order?.status === 'Paid'">{{ 'PAID' | translate }}</span>
+                  <span *ngIf="order?.status === 'Packed'">{{ 'PACKED' | translate }}</span>
+                  <span *ngIf="order?.status === 'Shipped Out'">{{ 'SHIPPED_OUT' | translate }}</span>
+                  <span *ngIf="order?.status === 'Cancelled'">{{ 'CANCELLED' | translate }}</span>
+                </div>
+              </ion-item>
+
+              <ion-item color="light">
+                <ion-label>
+                  <p>{{ 'ORDER_DATE' | translate }}</p>
+                </ion-label>
+
+                <div slot="end">
+                  <p class="text-medium">{{ order?.createdAt | date: 'mediumDate' }}</p>
+                </div>
+              </ion-item>
+
+            </ion-list>
+
+          </ion-list>
+
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <div *ngIf="isLoadingViewVisible">
+      <ion-row margin-vertical justify-content-center>
+        <ion-col size-xs="12" size-lg="10">
+          <div class="bg-light" padding>
+            <ngx-skeleton-loader count="5"
+              [theme]="{ 'border-radius': '0', height: '50px', 'margin-bottom': '0' }">
+            </ngx-skeleton-loader>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row margin-vertical justify-content-center>
+        <ion-col size-xs="12" size-lg="10">
+          <div class="bg-light" padding>
+            <ngx-skeleton-loader count="1"
+              [theme]="{ 'border-radius': '0', height: '50px', 'margin-bottom': '0' }">
+            </ngx-skeleton-loader>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row margin-vertical justify-content-center>
+        <ion-col size-xs="12" size-lg="10">
+          <div class="bg-light" padding>
+            <ngx-skeleton-loader count="1"
+              [theme]="{ 'border-radius': '0', height: '50px', 'margin-bottom': '0' }">
+            </ngx-skeleton-loader>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+
+  </ion-grid>
+</ion-content>

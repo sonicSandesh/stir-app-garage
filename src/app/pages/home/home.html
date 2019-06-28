@@ -1,0 +1,356 @@
+<ion-header no-border>
+  <ion-toolbar color="primary" fixed>
+    <div slot="start">
+      <img class="logo" src="./assets/imgs/logo.png" height="35" />
+    </div>
+    <ion-searchbar no-padding padding-horizontal mode="ios" showCancelButton="false" (keyup.enter)="onSearch($event)" [placeholder]="'SEARCH_PLACEHOLDER' | translate">
+    </ion-searchbar>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #container scrollEvents="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
+    <ion-refresher-content pullingText="{{ 'PULL_TO_REFRESH' | translate }}" refreshingText="{{ 'REFRESHING' | translate }}">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <empty-view *ngIf="isErrorViewVisible" icon="alert" [text]="'ERROR_DATA' | translate">
+  </empty-view>
+
+  <empty-view *ngIf="isEmptyViewVisible" icon="alert" [text]="'EMPTY_DATA' | translate">
+  </empty-view>
+
+  <ion-grid no-padding fixed>
+
+    <div *ngIf="isContentViewVisible">
+
+      <!-- Top Slide List -->
+      <div padding-start padding-vertical>
+        <ion-slides (ionSlidesDidLoad)="onSlidesDidLoad()"
+          [options]="slidesConfig">
+          <ion-slide *ngFor="let slide of slides">
+            <div tappable (click)="onSlideTouched(slide)">
+              <img src="./assets/imgs/placeholder-large.jpg"
+                [lazyLoad]="slide"
+                [scrollObservable]="loadAndScroll" />
+            </div>
+          </ion-slide>
+        </ion-slides>
+      </div>
+
+      <!-- Category List -->
+
+      <ion-row class="light-bg" padding *ngIf="categories.length" [@staggerIn]="categories.length">
+        <ion-col text-center size-xs="3" *ngFor="let category of categories" (click)="onCategoryTouched(category)">
+          <div class="circle bg-img" defaultImage="./assets/imgs/placeholder.png"
+            [offset]="300"
+            [lazyLoad]="category.imageThumb?.url()"
+            [scrollObservable]="loadAndScroll"></div>
+          <ion-text color="dark">
+            <p class="link margin-6 text-medium">
+              {{ category.name }}
+            </p>
+          </ion-text>
+
+        </ion-col>
+      </ion-row>
+
+      <!-- On Sale -->
+
+      <section margin-vertical *ngIf="itemsOnSale.length">
+
+        <ion-row padding-horizontal>
+          <ion-col size="6" text-start>
+            <span text-uppercase>
+              {{ 'ON_SALE' | translate }}
+            </span>
+          </ion-col>
+          <ion-col size="6" text-end>
+            <ion-text color="primary">
+              <span class="link" text-uppercase (click)="onViewAll({ sale: 1 })">
+                {{ 'VIEW_ALL' | translate }}
+              </span>
+            </ion-text>
+
+          </ion-col>
+        </ion-row>
+
+        <div margin-vertical>
+
+          <ion-row class="scrollable" margin-start>
+            <ion-col size="auto" float-start *ngFor="let item of itemsOnSale" (click)="goToItemPage(item)">
+
+              <ion-card no-margin class="full-width no-shadow no-radius" color="light">
+
+                <div class="image-container">
+                  <img src-fallback="./assets/imgs/placeholder.png" [src]="item.featuredImageThumb?.url()" />
+                  <span *ngIf="item.salePrice">
+                    {{ item.discount | percent }} {{ 'OFF' | translate }}
+                  </span>
+                </div>
+
+                <ion-card-content>
+
+                  <ion-text color="dark">
+                    <p class="link ellipsis text-medium">{{ item.name }}</p>
+                  </ion-text>
+
+                  <ion-text color="primary">
+                    <p text-end no-margin *ngIf="item.salePrice">
+                      <span class="bold">{{ item.salePrice | currency }}&nbsp;</span>
+                      <small>
+                        <ion-text color="medium">
+                          <s class="bold" ion-text color="gray">
+                            {{ item.price | currency }}
+                          </s>
+                        </ion-text>
+                      </small>
+                    </p>
+                    <p class="bold" text-end no-margin *ngIf="!item.salePrice">
+                      {{ item.price | currency }}
+                    </p>
+                  </ion-text>
+
+                </ion-card-content>
+              </ion-card>
+
+            </ion-col>
+          </ion-row>
+
+        </div>
+
+      </section>
+
+      <!-- New Arrival -->
+
+      <section margin-vertical *ngIf="itemsNewArrival.length">
+
+        <ion-row padding-horizontal>
+          <ion-col size="6" text-start>
+            <span text-uppercase>
+              {{ 'NEW_ARRIVAL' | translate }}
+            </span>
+          </ion-col>
+          <ion-col size="6" text-end>
+            <ion-text color="primary">
+              <span class="link" text-uppercase (click)="onViewAll({ new: 1 })">
+                {{ 'VIEW_ALL' | translate }}
+              </span>
+            </ion-text>
+
+          </ion-col>
+        </ion-row>
+
+        <div margin-vertical>
+
+          <ion-row class="scrollable" margin-start>
+            <ion-col size="auto" float-start *ngFor="let item of itemsNewArrival" (click)="goToItemPage(item)">
+
+              <ion-card no-margin class="full-width no-shadow no-radius" color="light">
+
+                <div class="image-container">
+                  <img src-fallback="./assets/imgs/placeholder.png" [src]="item.featuredImageThumb?.url()" />
+                  <span *ngIf="item.salePrice">
+                    {{ item.discount | percent }} {{ 'OFF' | translate }}
+                  </span>
+                </div>
+
+                <ion-card-content>
+
+                  <p class="ellipsis link text-medium">
+                    {{ item.name }}
+                  </p>
+
+                  <ion-text color="primary">
+                    <p text-end no-margin *ngIf="item.salePrice">
+                      <span class="bold">{{ item.salePrice | currency }}&nbsp;</span>
+                      <small>
+                        <ion-text color="medium">
+                          <s class="bold" ion-text color="gray">
+                            {{ item.price | currency }}
+                          </s>
+                        </ion-text>
+                      </small>
+                    </p>
+                    <p class="bold" text-end no-margin *ngIf="!item.salePrice">
+                      {{ item.price | currency }}
+                    </p>
+                  </ion-text>
+
+                </ion-card-content>
+              </ion-card>
+
+            </ion-col>
+          </ion-row>
+
+        </div>
+
+      </section>
+
+
+      <!-- Featured -->
+
+      <section margin-vertical *ngIf="itemsFeatured.length">
+
+        <ion-row padding-horizontal>
+          <ion-col size="6" text-start>
+            <span text-uppercase>
+              {{ 'FEATURED' | translate }}
+            </span>
+          </ion-col>
+          <ion-col size="6" text-end>
+            <ion-text color="primary">
+              <span class="link" text-uppercase (click)="onViewAll({ featured: 1 })">
+                {{ 'VIEW_ALL' | translate }}
+              </span>
+            </ion-text>
+
+          </ion-col>
+        </ion-row>
+
+        <div margin-vertical>
+
+          <ion-row class="scrollable" margin-start>
+            <ion-col size="auto" float-start *ngFor="let item of itemsFeatured" (click)="goToItemPage(item)">
+
+              <ion-card no-margin class="full-width no-shadow no-radius" color="light">
+
+                <div class="image-container">
+                  <img src-fallback="./assets/imgs/placeholder.png" [src]="item.featuredImageThumb?.url()" />
+                  <span *ngIf="item.salePrice">
+                    {{ item.discount | percent }} {{ 'OFF' | translate }}
+                  </span>
+                </div>
+
+                <ion-card-content>
+
+                  <ion-text color="dark">
+                    <p class="link ellipsis text-medium">{{ item.name }}</p>
+                  </ion-text>
+
+                  <ion-text color="primary">
+                    <p text-end no-margin *ngIf="item.salePrice">
+                      <span class="bold">{{ item.salePrice | currency }}&nbsp;</span>
+                      <small>
+                        <ion-text color="medium">
+                          <s class="bold" ion-text color="gray">
+                            {{ item.price | currency }}
+                          </s>
+                        </ion-text>
+                      </small>
+                    </p>
+                    <p class="bold" text-end no-margin *ngIf="!item.salePrice">
+                      {{ item.price | currency }}
+                    </p>
+                  </ion-text>
+
+                </ion-card-content>
+              </ion-card>
+
+            </ion-col>
+          </ion-row>
+
+        </div>
+
+      </section>
+
+      <!-- Random items -->
+
+      <div margin-vertical>
+        <ion-row>
+          <ion-col size-xs="6" size-sm="4" size-md="3" *ngFor="let item of items" (click)="goToItemPage(item)">
+
+            <ion-card no-margin class="full-width no-shadow no-radius" color="light">
+
+              <div class="image-container">
+                <img src="./assets/imgs/placeholder.png" [scrollObservable]="container.ionScroll" [lazyLoad]="item.featuredImageThumb?.url()" />
+                <span *ngIf="item.salePrice">
+                  {{ item.discount | percent }} {{ 'OFF' | translate }}
+                </span>
+              </div>
+
+              <ion-card-content>
+
+                <ion-text color="dark">
+                  <p class="link ellipsis text-medium">{{ item.name }}</p>
+                </ion-text>
+
+                <ion-text color="primary">
+                  <p text-end no-margin *ngIf="item.salePrice">
+                    <span class="bold">{{ item.salePrice | currency }}&nbsp;</span>
+                    <small>
+                      <ion-text color="medium">
+                        <s class="bold" ion-text color="gray">
+                          {{ item.price | currency }}
+                        </s>
+                      </ion-text>
+                    </small>
+                  </p>
+                  <p class="bold" text-end no-margin *ngIf="!item.salePrice">
+                    {{ item.price | currency }}
+                  </p>
+                </ion-text>
+
+              </ion-card-content>
+            </ion-card>
+
+          </ion-col>
+
+        </ion-row>
+      </div>
+
+      <ion-infinite-scroll (ionInfinite)="onLoadMore($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
+    </div>
+
+    <section *ngIf="isLoadingViewVisible">
+      <div padding>
+        <ngx-skeleton-loader count="1" [theme]="{ width: '100%', height: '250px', 'border-radius': '4px' }">
+        </ngx-skeleton-loader>
+      </div>
+
+      <div class="light-bg" padding-vertical>
+        <ion-row nowrap text-center>
+          <ion-col size-xs="3" *ngFor="let item of skeletonArray">
+            <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ width: '60px', height: '60px' }">
+            </ngx-skeleton-loader>
+          </ion-col>
+        </ion-row>
+
+        <ion-row nowrap text-center>
+          <ion-col size-xs="3" *ngFor="let item of skeletonArray">
+            <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ width: '60px', height: '60px' }">
+            </ngx-skeleton-loader>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <ion-row nowrap margin-top>
+        <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" text-center *ngFor="let item of skeletonArray">
+          <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ width: '100%', height: '230px', 'border-radius': '4px', margin: '0' }">
+          </ngx-skeleton-loader>
+        </ion-col>
+      </ion-row>
+
+      <ion-row nowrap>
+        <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" text-center *ngFor="let item of skeletonArray">
+          <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ width: '100%', height: '230px', 'border-radius': '4px', margin: '0' }">
+          </ngx-skeleton-loader>
+        </ion-col>
+      </ion-row>
+
+      <ion-row nowrap>
+        <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" text-center *ngFor="let item of skeletonArray">
+          <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ width: '100%', height: '230px', 'border-radius': '4px', margin: '0' }">
+          </ngx-skeleton-loader>
+        </ion-col>
+      </ion-row>
+    </section>
+
+  </ion-grid>
+
+</ion-content>

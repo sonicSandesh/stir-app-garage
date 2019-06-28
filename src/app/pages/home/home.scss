@@ -1,0 +1,58 @@
+ion-slides {
+
+    --bullet-background: var(--ion-color-light);
+    --bullet-background-active: var(--ion-color-primary);
+
+    ion-slide img {
+        border-radius: 6px;
+        display: block;
+        width: 100%;
+    }
+}
+
+.scrollable {
+    ion-card {
+        width: 175px !important;
+    }
+}
+
+ion-row[nowrap] {
+    overflow: hidden;
+}
+
+ion-card-content {
+    padding: 4px 6px !important;
+}
+
+ion-card .image-container {
+    position: relative;
+    padding: 0;
+
+    span {
+        background: #ccc;
+        padding: 3px;
+        color: #333;
+        font-size: 12px;
+        border-radius: 2px;
+        position: absolute;
+        bottom: 10px;
+        left: 16px;
+    }
+}
+
+@media (min-width: 992px) {
+    ion-slides ion-slide img {
+        width: 100%;
+    }
+
+    .scrollable {
+        white-space: normal;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .circle {
+        width: 100px;
+        height: 100px;
+    }
+  }

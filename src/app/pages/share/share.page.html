@@ -1,0 +1,46 @@
+<ion-header no-border>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button (click)="onDismiss()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content padding>
+
+  <div class="flex-center">
+    <ion-row margin-bottom>
+      <ion-col text-center>
+        <h3 class="text-xlarge no-margin-top">{{ 'SHARE_THIS' | translate }}</h3>
+        <img margin-top width="300" src="./assets/imgs/social-share.svg" />
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="4">
+        <share-button button="facebook"
+          [url]="url"
+          [text]="'SHARE' | translate"
+          [showText]="true">
+        </share-button>
+      </ion-col>
+      <ion-col size="4">
+        <share-button button="twitter"
+          [url]="url"
+          [text]="'SHARE' | translate"
+          [showText]="true">
+        </share-button>
+      </ion-col>
+      <ion-col size="4">
+        <share-button button="whatsapp"
+          [url]="url"
+          [text]="'SHARE' | translate"
+          [showText]="true">
+        </share-button>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>

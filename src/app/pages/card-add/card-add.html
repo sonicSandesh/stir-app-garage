@@ -1,0 +1,151 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="onDismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div margin-bottom>
+    <ion-text color="dark">
+      <h4 no-margin class="bold">
+        {{ 'BILLING_INFO' | translate }}
+      </h4>
+      <div class="line"></div>
+    </ion-text>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" #form1="ngForm" novalidate>
+
+    <ngx-stripe-card *ngIf="!mIsHybrid"
+      [options]="cardOptions"
+      [elementsOptions]="elementsOptions">
+    </ngx-stripe-card>
+
+    <ion-list lines="none">
+
+      <ion-row *ngIf="mIsHybrid">
+        <ion-col size="6">
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'CARD_NUMBER' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="text" formControlName="number"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'MONTH' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="number"
+              [placeholder]="'PLACEHOLDER_EXP_MONTH' | translate"
+              formControlName="expMonth">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'YEAR' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="number"
+             [placeholder]="'PLACEHOLDER_EXP_YEAR' | translate"
+             formControlName="expYear">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="mIsHybrid">
+        <ion-col>
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'CVV' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="text"
+              [placeholder]="'PLACEHOLDER_CVV' | translate"
+              formControlName="cvc">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'CARDHOLDER_NAME' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="text" formControlName="name"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'BILLING_ADDRESS' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="text" formControlName="address_line1"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'CITY' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="text" formControlName="address_city"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'STATE' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="text" formControlName="address_state"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'ZIP' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="text" formControlName="address_zip"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-label position="stacked" color="medium">
+            <span class="bold">{{ 'COUNTRY' | translate }}</span>
+          </ion-label>
+          <ion-item color="light" lines="none">
+            <ion-input type="text" formControlName="address_country" [placeholder]="'COUNTRY_PLACEHOLDER'| translate"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row justify-content-center>
+        <ion-col text-center size="5">
+          <ion-button type="submit" shape="round" expand="block" color="primary" [disabled]="isSaving">
+            <ion-spinner color="primary" *ngIf="isSaving"></ion-spinner>
+            <span *ngIf="!isSaving">{{ 'SAVE' | translate }}</span>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-list>
+
+  </form>
+
+</ion-content>

@@ -1,0 +1,130 @@
+<ion-header no-border>
+  <ion-toolbar color="primary" fixed>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToCartPage()" [disabled]="!item">
+        <ion-icon slot="start" name="cart"></ion-icon>
+        <span *ngIf="preference.cartCount">
+          {{ preference.cartCount }}
+        </span>
+      </ion-button>
+      <ion-button color="dark" [disabled]="!item" (click)="onLike()">
+        <ion-icon slot="icon-only" [name]="isLiked? 'heart' : 'heart-empty'" color="light">
+        </ion-icon>
+      </ion-button>
+      <ion-button class="btn-share" [disabled]="!item" (click)="onShare()">
+        <ion-icon slot="icon-only" name="share"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #container scrollEvents="true">
+
+  <web-social-share
+    (closed)="webSocialShare.onClosed()"
+    [show]="webSocialShare.show"
+    [share]="webSocialShare.share">
+    <ion-icon class="icon-share" name="logo-facebook" slot="facebook" color="fb"></ion-icon>
+    <ion-icon class="icon-share" name="logo-twitter" slot="twitter" color="twitter"></ion-icon>
+    <ion-icon class="icon-share" name="logo-whatsapp" slot="whatsapp" color="whatsapp"></ion-icon>
+  </web-social-share>
+
+  <ion-grid fixed>
+
+    <ion-row justify-content-center>
+      <ion-col size-xs="12" size-lg="10">
+
+        <empty-view *ngIf="isErrorViewVisible" icon="alert" [text]="'ERROR_DATA' | translate">
+        </empty-view>
+
+        <empty-view *ngIf="isEmptyViewVisible" icon="alert" [text]="'EMPTY_DATA' | translate">
+        </empty-view>
+
+        <div *ngIf="isLoadingViewVisible">
+
+          <ion-row>
+            <ion-col size-xs="12" size-lg="6">
+              <ngx-skeleton-loader count="1" [theme]="{ 'border-radius': '0', margin: '0 0 16px', height: '250px', width: '100%' }">
+              </ngx-skeleton-loader>
+            </ion-col>
+            <ion-col size-xs="12" size-lg="6">
+              <ngx-skeleton-loader count="4" [theme]="{ 'border-radius': '0', height: '10px' }">
+              </ngx-skeleton-loader>
+            </ion-col>
+          </ion-row>
+
+          <ion-row margin-vertical class="bg-light">
+            <ion-col>
+              <div padding>
+                <ngx-skeleton-loader count="16" [theme]="{ 'border-radius': '0', height: '10px' }">
+                </ngx-skeleton-loader>
+              </div>
+            </ion-col>
+          </ion-row>
+
+        </div>
+
+        <div *ngIf="isContentViewVisible">
+
+          <ion-row>
+            <ion-col size-xs="12" size-lg="6">
+              <!-- Slide List -->
+              <div class="border-light" padding>
+                <ion-slides #slides pager gallerize selector=".bg-img" (ionSlidesDidLoad)="onSlidesDidLoad($event)"
+                  (ionSlideWillChange)="onSlidesWillChange($event)" *ngIf="item && item.images?.length">
+                  <ion-slide *ngFor="let photo of item?.images">
+                    <div class="slide bg-img" [attr.imageSrc]="photo.url()" [attr.thumbSrc]="photo.url()" [lazyLoad]="photo.url()"
+                      [scrollObservable]="slidesObservable" defaultImage="./assets/imgs/placeholder-large.jpg">
+                    </div>
+                  </ion-slide>
+                </ion-slides>
+              </div>
+
+            </ion-col>
+            <ion-col size-xs="12" size-lg="6">
+              <p class="bold">{{ item?.name }}</p>
+              <ion-row no-padding align-items-center>
+
+                <ion-col size="6" text-start>
+                  <p class="text-large" *ngIf="item?.salePrice">
+                    <span class="bold">{{ item?.salePrice | currency }}&nbsp;</span>
+                    <ion-text color="medium">
+                      <s class="bold" ion-text color="gray">{{ item?.price | currency }}</s>
+                    </ion-text>
+                  </p>
+                  <p class="text-large bold" *ngIf="!item?.salePrice">
+                    {{ item?.price | currency }}
+                  </p>
+                </ion-col>
+                <ion-col size="6" text-end>
+                  <ion-button text-uppercase text-center expand="block" shape="round" color="primary" [disabled]="isAddingToCart"
+                    (click)="onAddToCart()">
+                    <ion-spinner color="light" *ngIf="isAddingToCart"></ion-spinner>
+                    <span *ngIf="!isAddingToCart">{{ 'ADD_TO_CART' | translate }}</span>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row margin-vertical class="bg-light">
+            <ion-col>
+              <div padding>
+                <div text-justify [innerHTML]="itemDescription"></div>
+              </div>
+            </ion-col>
+          </ion-row>
+
+        </div>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>

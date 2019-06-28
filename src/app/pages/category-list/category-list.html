@@ -1,0 +1,61 @@
+<ion-header no-border>
+  <ion-toolbar color="primary" fixed>
+    <div slot="start">
+      <img class="logo" src="./assets/imgs/logo.png" height="35" />
+    </div>
+    <ion-searchbar mode="ios" (ionChange)="onSearch($event)" placeholder="">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" #container>
+
+  <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
+    <ion-refresher-content pullingText="{{ 'PULL_TO_REFRESH' | translate }}" refreshingText="{{ 'REFRESHING' | translate }}">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid fixed>
+
+    <empty-view *ngIf="isErrorViewVisible" icon="alert" [text]="'ERROR_DATA' | translate">
+    </empty-view>
+
+    <empty-view *ngIf="isEmptyViewVisible" icon="alert" [text]="'EMPTY_DATA' | translate">
+    </empty-view>
+
+    <ion-row margin-vertical *ngIf="isContentViewVisible" [@staggerIn]="categories.length">
+      <ion-col size-xs="3" text-center>
+        <div class="circle primary-bg" (click)="onViewAll()">
+          <div class="circle-inner">
+            <p class="bold link">{{ 'VIEW_ALL' | translate }}</p>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size-xs="3" text-center
+        (click)="goToSubCategoryPage(category)"
+        *ngFor="let category of categories | filter: searchText">
+        <div class="circle bg-img"
+          defaultImage="./assets/imgs/placeholder.png"
+          [lazyLoad]="category.imageThumb?.url()"
+          [scrollObservable]="loadAndScroll"></div>
+        <ion-text color="dark">
+          <p class="link margin-6 text-medium">
+            {{ category.name }}
+          </p>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+
+    <section *ngIf="isLoadingViewVisible">
+      <ion-row text-center>
+        <ion-col size-xs="3" *ngFor="let item of skeletonArray">
+          <ngx-skeleton-loader count="1" appearance="circle"
+            [theme]="{ width: '60px', height: '60px' }">
+          </ngx-skeleton-loader>
+        </ion-col>
+      </ion-row>
+    </section>
+
+  </ion-grid>
+
+</ion-content>

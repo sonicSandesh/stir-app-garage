@@ -1,0 +1,25 @@
+ion-slides {
+  background: #fff;
+  height: 270px;
+
+  .slide {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    height: 270px;
+    width: 100%
+  }
+}
+
+.icon-share {
+  font-size: 48px;
+}
+
+ul,
+ol {
+  padding-left: 16px;
+
+  li {
+    margin-bottom: 12px;
+  }
+}
