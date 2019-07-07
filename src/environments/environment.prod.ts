@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverUrl: 'https://13.232.63.163/parse',
+  serverUrl: 'https://admin.stirpot/parse',
   appUrl: 'https://www.stirpot.in',
   appImageUrl: 'https://www.stirpot.in/assets/icon/Stirpot.png',
   appId: 'PiG5xQMoVv',
