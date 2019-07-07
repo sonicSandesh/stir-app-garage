@@ -1,7 +1,7 @@
 {
   "name": "StirPot",
   "short_name": "StirPot",
-  "theme_color": "#A42A2A",
+  "theme_color": "#7f3815",
   "background_color": "#FFFFFF,
   "display": "standalone",
   "scope": "/",
