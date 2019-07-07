@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://13.232.63.163/parse',
+  serverUrl: 'https://admin.stirpot.in/parse',
   appUrl: 'https://www.stirpot.in',
   appImageUrl: 'https://www.stirpot.in/assets/icon/Stirpot.png',
   appId: 'PiG5xQMoVv',
