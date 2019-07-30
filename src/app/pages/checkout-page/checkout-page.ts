@@ -9,6 +9,8 @@ import { Card } from '../../services/card';
 import { AddressListModalPage } from '../address-list-modal/address-list';
 import { CardListModalPage } from '../card-list-modal/card-list';
 import * as Parse from 'parse';
+//Declaring PayU's bolt
+declare var bolt : any;
 
 @Component({
   selector: 'page-checkout-page',
@@ -254,7 +256,6 @@ export class CheckoutPage extends BasePage {
 
       const order = this.prepareOrderData();
       await order.save();
-      console.log();
       if(order.id && order.paymentMethod === 'Card') {
         const transactionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         const currentUser = Parse.User.current();

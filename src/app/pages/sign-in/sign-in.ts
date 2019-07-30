@@ -183,8 +183,6 @@ export class SignInPage extends BasePage {
   async onSignUp() {
 
     try {
-
-console.log(this.form)
       if (this.form.controls.phone.invalid) {
         return this.showToast('Please provide valid 10 digit phone number');
       }
