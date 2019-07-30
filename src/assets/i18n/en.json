@@ -18,6 +18,7 @@
   "SHARE": "Share",
   "CLOSE": "Close",
   "EMAIL": "Email",
+  "PHONE": "Phone Number",
   "PASSWORD": "Password",
   "PASSWORD_VALIDATION_MSG": "Password must be at least 6 characters",
   "LOGIN": "Login",

@@ -174,6 +174,7 @@ export class HomePage extends BasePage {
       this.showContentView();
 
       this.onContentLoaded();
+      this.queryItems.page = 1;
 
       if (this.ionSlides) {
         this.ionSlides.slideTo(0, 0);
@@ -189,9 +190,14 @@ export class HomePage extends BasePage {
   }
 
   onLoadMore(event: any = {}) {
-    this.infiniteScroll = event.target;
-    this.queryItems.page++;
-    this.loadItems();
+    if(this.items.length === (this.queryItems.page*25)) {
+      this.infiniteScroll = event.target;
+      this.queryItems.page++;
+      this.loadItems();
+    } else {
+      event.target.complete();
+      event.target.disabled = true;
+    }
   }
 
   loadItems() {

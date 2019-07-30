@@ -75,6 +75,7 @@
     "parse": "^2.1.0",
     "parse-push-plugin": "git+https://github.com/fmendoza/parse-push-plugin.git#cordova-android-7",
     "rxjs": "~6.3.3",
+    "stream": "0.0.2",
     "web-social-share": "^4.0.2",
     "zone.js": "~0.8.29"
   },

@@ -65,8 +65,10 @@ export class SignInPage extends BasePage {
   setupSignUpForm() {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
-      username: new FormControl('', Validators.required),
-      email: new FormControl(''),
+      //username: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
+      phone: new FormControl('',  Validators.compose([Validators.required, Validators.minLength(10),Validators.maxLength(10),
+      Validators.pattern('[6-9]{1}[0-9]{9}?')])),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
   }
@@ -182,6 +184,13 @@ export class SignInPage extends BasePage {
 
     try {
 
+console.log(this.form)
+      if (this.form.controls.phone.invalid) {
+        return this.showToast('Please provide valid 10 digit phone number');
+      }
+      if (this.form.controls.email.invalid) {
+        return this.showToast('Please provide valid email');
+      }
       if (this.form.invalid) {
         const message = await this.getTrans('INVALID_FORM');
         return this.showToast(message);
@@ -193,6 +202,10 @@ export class SignInPage extends BasePage {
         delete formData.email;
       }
 
+      if (formData.phone === '') {
+        delete formData.phone;
+      }
+      formData.username = formData.email;
       await this.showLoadingView({ showOverlay: false });
       this.isSignUpLoading = true;
       

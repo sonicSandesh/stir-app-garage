@@ -109,13 +109,13 @@
 
                 <ion-text color="dark">
                   <p class="bold" *ngIf="item.salePrice">
-                    <span>{{ item.salePrice | currency }}&nbsp;</span>
+                    <span>{{ item.salePrice | currency : "INR" }}&nbsp;</span>
                     <ion-text color="medium">
-                      <s>{{ item.price | currency }}</s>
+                      <s>{{ item.price | currency : "INR"}}</s>
                     </ion-text>
                   </p>
                   <p class="bold" *ngIf="!item.salePrice">
-                    {{ item.price | currency }}
+                    {{ item.price | currency : "INR"}}
                   </p>
                 </ion-text>
 
@@ -123,7 +123,7 @@
               <div slot="end">
                 <ion-text color="dark">
                   <p class="bold">
-                    {{ item.amount | currency }}
+                    {{ item.amount | currency : "INR"}}
                   </p>
                 </ion-text>
               </div>
@@ -142,9 +142,9 @@
               <p class="text-medium">{{ 'TOTAL' | translate }}</p>
             </ion-col>
             <ion-col text-end>
-              <p class="text-medium">{{ cart?.subtotal | currency }}</p>
-              <p class="text-medium">{{ (cart?.shipping?.subzone?.fee || 0) | currency }}</p>
-              <p class="text-medium">{{ cart?.total | currency }}</p>
+              <p class="text-medium">{{ cart?.subtotal | currency : "INR"}}</p>
+              <p class="text-medium">{{ (cart?.shipping?.subzone?.fee || 0) | currency : "INR"}}</p>
+              <p class="text-medium">{{ cart?.total | currency : "INR"}}</p>
             </ion-col>
           </ion-row>
           <div text-center>

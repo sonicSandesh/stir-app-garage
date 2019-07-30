@@ -37,12 +37,14 @@ export class ProfileEditPage extends BasePage {
 
     let formGroupParams: any = {
       name: new FormControl(this.user.attributes.name, Validators.required),
-      email: new FormControl(this.user.attributes.emaail)
+      email: new FormControl(this.user.attributes.email,[Validators.required,Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]),
+      phone: new FormControl(this.user.attributes.phone,  Validators.compose([Validators.required, Validators.minLength(10),Validators.maxLength(10),
+      Validators.pattern('[6-9]{1}[0-9]{9}?')]))
     };
 
     // Show the username field if user logged in with username/password
     if (!this.user.attributes.authData) {
-      formGroupParams.username = new FormControl(this.user.username, Validators.required);
+      //formGroupParams.username = new FormControl(this.user.username, Validators.required);
     }
 
     this.form = new FormGroup(formGroupParams);
@@ -56,6 +58,12 @@ export class ProfileEditPage extends BasePage {
 
     try {
 
+      if (this.form.controls.phone.invalid) {
+        return this.showToast('Please provide valid 10 digit phone number');
+      }
+      if (this.form.controls.email.invalid) {
+        return this.showToast('Please provide valid email');
+      }
       if (this.form.invalid) {
         return this.translate.get('INVALID_FORM').subscribe(str => this.showToast(str));
       }
@@ -69,6 +77,8 @@ export class ProfileEditPage extends BasePage {
       }
 
       if (!formData.email) delete formData.email;
+
+      formData.username = formData.email;
 
       const user = User.getCurrent();
 

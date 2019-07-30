@@ -20,20 +20,27 @@
       <ion-input type="text" formControlName="name"></ion-input>
     </ion-item>
 
-    <div *ngIf="!user?.attributes.authData">
+    <!--<div *ngIf="!user?.attributes.authData">
       <ion-label position="stacked" color="medium">
         <span class="bold">{{ 'USERNAME' | translate }}</span>
       </ion-label>
       <ion-item margin-vertical lines="none" color="light">
         <ion-input type="text" formControlName="username"></ion-input>
       </ion-item>
-    </div>
+    </div>-->
 
     <ion-label position="stacked" color="medium">
       <span class="bold">{{ 'EMAIL' | translate }}</span>
     </ion-label>
     <ion-item margin-vertical lines="none" color="light">
       <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-label position="stacked" color="medium">
+      <span class="bold">{{ 'PHONE' | translate }}</span>
+    </ion-label>
+    <ion-item margin-vertical lines="none" color="light">
+      <ion-input type="number" formControlName="phone"></ion-input>
     </ion-item>
 
     <ion-label position="stacked" color="medium">

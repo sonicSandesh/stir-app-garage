@@ -39,13 +39,13 @@
                   <ion-text color="dark">
                     <p>{{ item.name }}</p>
                     <p *ngIf="item.salePrice">
-                      <span class="bold">{{ item.salePrice | currency }}&nbsp;</span>
+                      <span class="bold">{{ item.salePrice | currency : "INR"}}&nbsp;</span>
                       <ion-text color="medium">
-                        <s class="bold">{{ item.price | currency }}</s>
+                        <s class="bold">{{ item.price | currency : "INR"}}</s>
                       </ion-text>
                     </p>
                     <p class="bold" class="bold" *ngIf="!item.salePrice">
-                      {{ item.price | currency }}
+                      {{ item.price | currency : "INR"}}
                     </p>
                   </ion-text>
                 </ion-col>
@@ -70,7 +70,7 @@
         <div class="bg-light" padding margin>
           <h5 no-margin>{{ 'ORDER_SUMMARY' | translate }}</h5>
           <div text-center>
-            <p>{{ 'TOTAL' | translate }}: {{ cart?.subtotal | currency }}</p>
+            <p>{{ 'TOTAL' | translate }}: {{ cart?.subtotal | currency : "INR"}}</p>
             <ion-button size="medium" shape="round" color="primary" [disabled]="cart?.empty() || !cart || isSavingCart"
               (click)="goToCheckout()">
               <ion-spinner color="light" *ngIf="isSavingCart"></ion-spinner>

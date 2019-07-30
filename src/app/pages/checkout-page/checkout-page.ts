@@ -8,6 +8,7 @@ import { CustomerAddress } from '../../services/customer-address';
 import { Card } from '../../services/card';
 import { AddressListModalPage } from '../address-list-modal/address-list';
 import { CardListModalPage } from '../card-list-modal/card-list';
+import * as Parse from 'parse';
 
 @Component({
   selector: 'page-checkout-page',
@@ -25,6 +26,8 @@ export class CheckoutPage extends BasePage {
   public isLoadingCards: boolean;
   public isCreatingOrder: boolean;
 
+  public varOrder: Order;
+
   constructor(injector: Injector,
     private cardService: Card,
     private cartService: Cart,
@@ -41,11 +44,12 @@ export class CheckoutPage extends BasePage {
   }
 
   setupForm() {
+
     this.form = new FormGroup({
       shipping: new FormControl(null, Validators.required),
       card: new FormControl(null),
       paymentMethod: new FormControl('Cash', Validators.required),
-      contactNumber: new FormControl('')
+      contactNumber: new FormControl(Parse.User.current().get('phone'))
     });
   }
 
@@ -176,11 +180,15 @@ export class CheckoutPage extends BasePage {
       this.form.controls.card.setValue(null);
       this.form.controls.card.updateValueAndValidity();
     } else if (paymentMethod === 'Card') {
-      this.form.controls.card.setValidators(Validators.required);
+      this.form.controls.card.clearValidators();
+      this.form.controls.card.setValue(null);
       this.form.controls.card.updateValueAndValidity();
-      this.form.controls.card.setValue(this.card);
+      // Below is the original code that set validations on cards
+      //this.form.controls.card.setValidators(Validators.required);
+      //this.form.controls.card.updateValueAndValidity();
+      //this.form.controls.card.setValue(this.card);
 
-      if (!this.card) this.loadCards();
+      //if (!this.card) this.loadCards();
     } else {
       // no match
     }
@@ -201,6 +209,43 @@ export class CheckoutPage extends BasePage {
     return order;
   }
 
+  onPaymentSuccess(outerThis:CheckoutPage) {
+
+      outerThis.isCreatingOrder = false;
+      outerThis.events.publish('cart:updated', new Cart);
+      const path = outerThis.currentPath + '/thanks/' + outerThis.varOrder.id;
+      outerThis.router.navigate([path], { replaceUrl: true });
+  }
+
+   onBoltResponse(outerThis:CheckoutPage, hashRequestData:any) {
+    return function(BOLT) {
+      if(BOLT.response.txnStatus == 'SUCCESS') {
+          hashRequestData.money = BOLT.response.amount
+          hashRequestData.status = BOLT.response.status
+          hashRequestData.responseHash = BOLT.response.hash
+          hashRequestData.orderId = outerThis.varOrder.id
+          Parse.Cloud.run('evaluateBoltResponseHash',
+        {hashResponseData : hashRequestData}).then((respData) => {
+          if (respData === 'SUCCESS') {
+              outerThis.varOrder.set('status', 'Paid')
+              outerThis.varOrder.save()
+              outerThis.onPaymentSuccess(outerThis);
+            } else {
+              outerThis.isCreatingOrder = false;
+              alert('Payment Failed')
+          }
+          });
+          
+      } else if(BOLT.response.txnStatus == 'CANCEL') {
+          outerThis.isCreatingOrder = false;
+      } else if(BOLT.response.txnStatus == 'FAILED') {
+          outerThis.isCreatingOrder = false;
+      }
+      
+    }
+    
+  }
+
   async onPlaceOrder() {
 
     try {
@@ -209,14 +254,49 @@ export class CheckoutPage extends BasePage {
 
       const order = this.prepareOrderData();
       await order.save();
+      console.log();
+      if(order.id && order.paymentMethod === 'Card') {
+        const transactionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const currentUser = Parse.User.current();
+        const hashRequestData = {
+          txnid : transactionId,
+          firstname : currentUser.get('name'),
+          email : currentUser.getEmail(),
+          prodinfo : order.firstItem.name,
+          money : order.total
+        }
 
-      this.isCreatingOrder = false;
+        const requestConfData = await Parse.Cloud.run('getBoltRequestHash',
+          {hashRequestData : hashRequestData});
+        const requestData = {
+                              key: requestConfData.puKey,
+                              txnid: transactionId,
+                              hash: requestConfData.requestHash,
+                              amount: order.total,
+                              firstname: currentUser.get('name'),
+                              email: currentUser.getEmail(),
+                              phone: currentUser.get('phone'),
+                              productinfo: order.firstItem.name,
+                              surl : 'https://stirpot.in',
+                              furl: 'https://stirpot.in'
+                            }
 
-      this.events.publish('cart:updated', new Cart);
+        this.varOrder = order;
+        bolt.launch(requestData, {
+          responseHandler: this.onBoltResponse(this,hashRequestData),
+          catchException: function (BOLT) {
+            console.log( BOLT.message );
+          }
+        });
+      } else if(order.id && order.paymentMethod === 'Cash') {
+        this.isCreatingOrder = false;
 
-      const path = this.currentPath + '/thanks/' + order.id;
+        this.events.publish('cart:updated', new Cart);
 
-      this.router.navigate([path], { replaceUrl: true });
+        const path = this.currentPath + '/thanks/' + order.id;
+
+        this.router.navigate([path], { replaceUrl: true });
+      }
       
     } catch (err) {
 

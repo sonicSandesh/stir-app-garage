@@ -105,20 +105,24 @@
         </ion-input>
       </ion-item>
 
-      <ion-item color="light" lines="none" margin-bottom>
+      <!--<ion-item color="light" lines="none" margin-bottom>
         <ion-input type="text" formControlName="username" [placeholder]="'USERNAME' | translate">
         </ion-input>
-      </ion-item>
+      </ion-item>-->
 
       <ion-item color="light" lines="none" margin-bottom>
-        <ion-input type="email" formControlName="email" [placeholder]="'EMAIL' | translate"></ion-input>
+        <ion-input type="email" formControlName="email" required=true [placeholder]="'EMAIL' | translate"></ion-input>
       </ion-item>
 
-      <ion-text color="dark">
+      <!--<ion-text color="dark">
         <p>
           <small>{{ 'EMAIL_FIELD_HELP' | translate }}</small>
         </p>
-      </ion-text>
+      </ion-text>-->
+
+      <ion-item color="light" lines="none" margin-bottom>
+        <ion-input type="number" formControlName="phone" [placeholder]="'PHONE' | translate"></ion-input>
+      </ion-item>
 
       <ion-item color="light" lines="none" margin-bottom>
         <ion-input [type]="!showPass ? 'password' : 'text' " formControlName="password" [placeholder]="'PASSWORD' | translate">

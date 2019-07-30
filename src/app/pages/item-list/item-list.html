@@ -49,17 +49,17 @@
 
             <ion-text color="primary">
               <p text-end no-margin *ngIf="item.salePrice">
-                <span class="bold">{{ item.salePrice | currency }}&nbsp;</span>
+                <span class="bold">{{ item.salePrice | currency : "INR"}}&nbsp;</span>
                 <small>
                   <ion-text color="medium">
                     <s class="bold">
-                      {{ item.price | currency }}
+                      {{ item.price | currency : "INR"}}
                     </s>
                   </ion-text>
                 </small>
               </p>
               <p class="bold" text-end no-margin *ngIf="!item.salePrice">
-                {{ item.price | currency }}
+                {{ item.price | currency : "INR"}}
               </p>
             </ion-text>
 
