@@ -167,6 +167,7 @@ export class HomePage extends BasePage {
       this.itemsOnSale = data.itemsOnSale;
       this.itemsNewArrival = data.itemsNewArrival;
       this.itemsFeatured = data.itemsFeatured;
+      this.items = [];
 
       this.loadItems();
 
