@@ -21,10 +21,10 @@
     <ion-list lines="none">
 
       <ion-label position="stacked" color="medium">
-        <span class="bold">{{ 'ZONE' | translate }}</span>
+        <span class="bold">{{ 'CITY' | translate }}</span>
       </ion-label>
       <ion-item margin-vertical lines="none" color="light">
-        <ion-label>{{ 'ZONE' | translate }}</ion-label>
+        <ion-label>{{ 'CITY' | translate }}</ion-label>
         <ion-select (ionChange)="onZoneChanged()" formControlName="zone">
           <ion-select-option *ngFor="let zone of zones" [value]="zone">
             {{ zone.name }}
@@ -33,10 +33,10 @@
       </ion-item>
 
       <ion-label position="stacked" color="medium">
-        <span class="bold">{{ 'SUBZONE' | translate }}</span>
+        <span class="bold">{{ 'LOCALITY' | translate }}</span>
       </ion-label>
       <ion-item margin-vertical lines="none" color="light">
-        <ion-label>{{ 'SUBZONE' | translate }}</ion-label>
+        <ion-label>{{ 'LOCALITY' | translate }}</ion-label>
         <ion-select formControlName="subzone">
           <ion-select-option *ngFor="let subzone of subzones" [value]="subzone">
             {{ subzone.name }}
