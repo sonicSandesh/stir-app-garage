@@ -208,7 +208,6 @@ export class CheckoutPage extends BasePage {
     order.card = formData.card;
     order.shipping = formData.shipping;
     order.contactNumber = formData.contactNumber;
-    order.instructions = formData.instructions;
 
     return order;
   }
