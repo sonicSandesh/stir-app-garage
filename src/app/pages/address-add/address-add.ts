@@ -37,7 +37,7 @@ export class AddressAddPage extends BasePage {
     this.form = new FormGroup({
       zone: new FormControl(null, Validators.required),
       subzone: new FormControl(null, Validators.required),
-      address: new FormControl('', Validators.required),
+      address: new FormControl('', [Validators.required,Validators.minLength(10)]),
     });
   }
 
@@ -63,6 +63,10 @@ export class AddressAddPage extends BasePage {
   }
 
   async onSubmit() {
+
+    if (this.form.controls.address.invalid) {
+      return this.showToast('Please provide complete address');
+    }
 
     if (this.form.invalid) {
       return this.translate.get('INVALID_FORM').subscribe(str => this.showToast(str));

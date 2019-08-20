@@ -191,9 +191,14 @@ ion-menu .content {
 }
 
 $primary-color: var(--ion-color-primary);
+$secondary-color: var(--ion-color-secondary);
 
 .primary-bg {
     background: var(--ion-color-primary);
+}
+
+.secondary-bg {
+    background: var(--ion-color-secondary);
 }
 
 .light-bg {

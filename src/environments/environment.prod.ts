@@ -6,6 +6,6 @@ export const environment = {
   appId: 'PiG5xQMoVv',
   fbId: '2081754298556977',
   stripePublicKey: 'pk_test_MVWLbqwGEHDv5J9MkdN4i7Ot',
-  androidHeaderColor: '#5D67D4',
+  androidHeaderColor: '#ffffff',
   defaultLang: 'en',
 };

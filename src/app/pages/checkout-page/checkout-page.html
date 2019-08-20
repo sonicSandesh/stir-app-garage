@@ -24,75 +24,6 @@
         <form [formGroup]="form" (ngSubmit)="onPlaceOrder()" #form1="ngForm" novalidate>
 
           <ion-item-group margin-vertical>
-            <ion-list-header color="primary">
-              {{ 'PAYMENT' | translate }}
-            </ion-list-header>
-            <ion-list no-padding no-margin>
-              <ion-radio-group
-                (ionChange)="onChangePaymentMethod($event)"
-                formControlName="paymentMethod">
-                <ion-item color="light">
-                  <ion-label>
-                    <p>{{ 'CASH' | translate }}</p>
-                  </ion-label>
-                  <ion-radio value="Cash"></ion-radio>
-                </ion-item>
-                <ion-item color="light" lines="none">
-                  <ion-label>
-                    <p class="flex align-items-center">
-                      <span *ngIf="!card">{{ 'CREDIT_DEBIT_CARD' | translate }}</span>
-                      <img src="./assets/imgs/{{card.formatBrand()}}.png" width="40" *ngIf="card" />
-                      <span [innerHTML]="card" *ngIf="card"></span>
-                      <ion-spinner *ngIf="isLoadingCards"></ion-spinner>
-                    </p>
-                  </ion-label>
-                  <ion-radio value="Card"></ion-radio>
-                  <ion-button class="z-index-10" type="button"
-                    size="small" color="primary" fill="clear" slot="end"   
-                    *ngIf="card"
-                    (click)="onChangeCard()">
-                    {{ 'CHANGE' | translate }}
-                  </ion-button>
-                </ion-item>
-              </ion-radio-group>
-            </ion-list>
-          </ion-item-group>
-
-          <ion-list-header color="primary">
-            {{ 'SHIPPING' | translate }}
-          </ion-list-header>
-
-          <ion-list no-padding no-margin>
-            <ion-radio-group>
-              <ion-item color="light" [hidden]="!address">
-                <ion-label>
-                  <p>{{ address }}</p>
-                </ion-label>
-                <ion-radio [checked]="address" [value]="address"></ion-radio>
-                <ion-button class="z-index-10" type="button"
-                  size="small" color="primary" fill="clear" slot="end"
-                  (click)="onChangeAddress()">
-                  {{ 'CHANGE' | translate }}
-                </ion-button>
-              </ion-item>
-
-              <ion-item color="light" *ngIf="!address" (click)="onChangeAddress()">
-                <ion-label>
-                  <p>{{ 'ADD_ADDRESS' | translate }}</p>
-                </ion-label>
-                <ion-icon name="arrow-forward" color="dark" slot="end"></ion-icon>
-              </ion-item>
-            </ion-radio-group>
-
-          </ion-list>
-
-          <ion-item lines="none" color="light">
-            <ion-icon name="call" slot="start" color="primary"></ion-icon>
-            <ion-input type="tel" formControlName="contactNumber" [placeholder]="'CONTACT_NUMBER' | translate">
-            </ion-input>
-          </ion-item>
-
-          <ion-item-group margin-vertical>
             <ion-list-header color="primary" text-center>
               {{ 'ORDER_SUMMARY' | translate }}
             </ion-list-header>
@@ -130,21 +61,96 @@
             </ion-item>
           </ion-item-group>
 
+          <ion-item margin-vertical lines="none" color="light">
+            <ion-textarea rows="2" formControlName="instructions" [placeholder]="'SUGGESTIONS' | translate"></ion-textarea>
+          </ion-item>
+          
+          <ion-list-header color="primary">
+            {{ 'DELIVERY' | translate }}
+          </ion-list-header>
+
+          <ion-list no-padding no-margin>
+            <ion-radio-group>
+              <ion-item color="light" [hidden]="!address">
+                <ion-label>
+                  <p>{{ address }}</p>
+                </ion-label>
+                <ion-radio [checked]="address" [value]="address"></ion-radio>
+                <ion-button class="z-index-10" type="button"
+                  size="small" color="primary" fill="clear" slot="end"
+                  (click)="onChangeAddress()">
+                  {{ 'CHANGE' | translate }}
+                </ion-button>
+              </ion-item>
+
+              <ion-item color="light" *ngIf="!address" (click)="onChangeAddress()">
+                <ion-label>
+                  <p>{{ 'ADD_ADDRESS' | translate }}</p>
+                </ion-label>
+                <ion-icon name="arrow-forward" color="dark" slot="end"></ion-icon>
+              </ion-item>
+            </ion-radio-group>
+
+          </ion-list>
+
+          <ion-item lines="none" color="light">
+            <ion-icon name="call" slot="start" color="primary"></ion-icon>
+            <ion-input type="tel" formControlName="contactNumber" [placeholder]="'CONTACT_NUMBER' | translate">
+            </ion-input>
+          </ion-item>
+
+
+          <ion-item-group margin-vertical>
+            <ion-list-header color="primary">
+              {{ 'PAYMENT' | translate }}
+            </ion-list-header>
+            <ion-list no-padding no-margin>
+              <ion-radio-group
+                (ionChange)="onChangePaymentMethod($event)"
+                formControlName="paymentMethod">
+                <ion-item color="light" lines="none">
+                  <ion-label>
+                    <p class="flex align-items-center">
+                      <span *ngIf="!card">{{ 'PAY_ONLINE' | translate }}</span>
+                      <img src="./assets/imgs/{{card.formatBrand()}}.png" width="40" *ngIf="card" />
+                      <span [innerHTML]="card" *ngIf="card"></span>
+                      <ion-spinner *ngIf="isLoadingCards"></ion-spinner>
+                    </p>
+                  </ion-label>
+                  <ion-radio value="Card"></ion-radio>
+                  <ion-button class="z-index-10" type="button"
+                    size="small" color="primary" fill="clear" slot="end"   
+                    *ngIf="card"
+                    (click)="onChangeCard()">
+                    {{ 'CHANGE' | translate }}
+                  </ion-button>
+                </ion-item>
+                <ion-item color="light">
+                  <ion-label>
+                    <p>{{ 'PAY_ON_DELIVERY' | translate }}</p>
+                  </ion-label>
+                  <ion-radio value="Cash"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list>
+          </ion-item-group>
+
         </form>
       </ion-col>
       <ion-col size-xs="12" size-lg="4">
+        
         <div class="bg-light" padding margin-top>
-          <h5 no-margin>{{ 'ORDER_SUMMARY' | translate }}</h5>
+          <h5 no-margin>{{ 'BILL_DETAILS' | translate }}</h5>
           <ion-row>
             <ion-col>
               <p class="text-medium">{{ 'SUBTOTAL' | translate }}</p>
-              <p class="text-medium">{{ 'SHIPPING_FEE' | translate }}</p>
-              <p class="text-medium">{{ 'TOTAL' | translate }}</p>
+              <p class="text-medium">{{ 'DELIVERY_FEE' | translate }}</p>
+              <p class="text-medium" style="border-top: 1px solid">{{ 'TOTAL' | translate }}</p>
             </ion-col>
             <ion-col text-end>
               <p class="text-medium">{{ cart?.subtotal | currency : "INR"}}</p>
               <p class="text-medium">{{ (cart?.shipping?.subzone?.fee || 0) | currency : "INR"}}</p>
-              <p class="text-medium">{{ cart?.total | currency : "INR"}}</p>
+              <p class="text-medium" style="border-top: 1px solid">{{ cart?.total | currency : "INR"}}</p>
             </ion-col>
           </ion-row>
           <div text-center>
@@ -153,10 +159,10 @@
               <ion-spinner color="light" *ngIf="isCreatingOrder"></ion-spinner>
               <span *ngIf="!isCreatingOrder">{{ 'PLACE_ORDER' | translate }}</span>
             </ion-button>
-            <p><small>{{ 'TRANSACTION_NOTICE' | translate }}</small></p>
+            <!--<p><small>{{ 'TRANSACTION_NOTICE' | translate }}</small></p>
             <img src="./assets/imgs/mastercard.png" width="40" />
             <img src="./assets/imgs/visa.png" width="40" />
-            <img src="./assets/imgs/american_express.png" width="40" />
+            <img src="./assets/imgs/american_express.png" width="40" />-->
           </div>
         </div>
       </ion-col>

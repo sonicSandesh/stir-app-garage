@@ -50,8 +50,9 @@ export class CheckoutPage extends BasePage {
     this.form = new FormGroup({
       shipping: new FormControl(null, Validators.required),
       card: new FormControl(null),
-      paymentMethod: new FormControl('Cash', Validators.required),
-      contactNumber: new FormControl(Parse.User.current().get('phone'))
+      paymentMethod: new FormControl('Card', Validators.required),
+      contactNumber: new FormControl(Parse.User.current().get('phone')),
+      instructions: new FormControl('')
     });
   }
 
@@ -207,6 +208,7 @@ export class CheckoutPage extends BasePage {
     order.card = formData.card;
     order.shipping = formData.shipping;
     order.contactNumber = formData.contactNumber;
+    order.instructions = formData.instructions;
 
     return order;
   }
