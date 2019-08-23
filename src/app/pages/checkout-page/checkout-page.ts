@@ -208,6 +208,7 @@ export class CheckoutPage extends BasePage {
     order.card = formData.card;
     order.shipping = formData.shipping;
     order.contactNumber = formData.contactNumber;
+    order.instructions = formData.instructions;
 
     return order;
   }
@@ -287,7 +288,7 @@ export class CheckoutPage extends BasePage {
         bolt.launch(requestData, {
           responseHandler: this.onBoltResponse(this,hashRequestData),
           catchException: function (BOLT) {
-            console.log( BOLT.message );
+            this.showToast( BOLT.message );
           }
         });
       } else if(order.id && order.paymentMethod === 'Cash') {

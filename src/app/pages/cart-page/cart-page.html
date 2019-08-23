@@ -71,15 +71,17 @@
           <h5 no-margin>{{ 'ORDER_SUMMARY' | translate }}</h5>
           <div text-center>
             <p>{{ 'TOTAL' | translate }}: {{ cart?.subtotal | currency : "INR"}}</p>
-            <ion-button size="medium" shape="round" color="primary" [disabled]="cart?.empty() || !cart || isSavingCart"
+            <ion-button size="medium" shape="round" color="primary" [disabled]="cart?.empty() || !cart || isSavingCart || !areWeServing"
               (click)="goToCheckout()">
               <ion-spinner color="light" *ngIf="isSavingCart"></ion-spinner>
               <span *ngIf="!isSavingCart">{{ 'CHECKOUT' | translate }}</span>
             </ion-button>
+            <p style="color:red;" *ngIf="!areWeServing">{{closedMessage}}</p>
+
             <p><small>{{ 'TRANSACTION_NOTICE' | translate }}</small></p>
-            <img src="./assets/imgs/mastercard.png" width="40" />
+            <!--<img src="./assets/imgs/mastercard.png" width="40" />
             <img src="./assets/imgs/visa.png" width="40" />
-            <img src="./assets/imgs/american_express.png" width="40" />
+            <img src="./assets/imgs/american_express.png" width="40" />-->
           </div>
         </div>
 

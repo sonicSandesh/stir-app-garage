@@ -95,6 +95,14 @@ export class Order extends Parse.Object {
     this.set('status', val);
   }
 
+  get instructions() {
+    return this.get('instructions');
+  }
+
+  set instructions(val) {
+    this.set('instructions', val);
+  }
+
 }
 
 Parse.Object.registerSubclass('Order', Order);
