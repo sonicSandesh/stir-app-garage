@@ -61,6 +61,11 @@
               <p class="bold" text-end no-margin *ngIf="!item.salePrice">
                 {{ item.price | currency : "INR"}}
               </p>
+              <small>
+                <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
+                    Serving for 2
+                </ion-text>
+              </small>
             </ion-text>
 
           </ion-card-content>
