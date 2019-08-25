@@ -7,6 +7,7 @@ import * as Parse from 'parse';
 import { Category } from '../../services/category';
 import { SubCategory } from '../../services/sub-category';
 import { Subject, Observable, merge } from 'rxjs';
+import { AppConfigService } from '../../services/app-config';
 import {
   trigger,
   style,
@@ -60,12 +61,16 @@ export class HomePage extends BasePage {
 
   private queryItems: any = {};
 
+  public appConfig: AppConfigService;
+  public about: any;
+
   protected contentLoaded: Subject<any>;
   protected loadAndScroll: Observable<any>;
 
   constructor(injector: Injector,
     private subCategoryService: SubCategory,
-    private itemService: Item) {
+    private itemService: Item,
+    private appConfigService: AppConfigService) {
     super(injector);
     this.contentLoaded = new Subject();
   }
@@ -160,9 +165,24 @@ export class HomePage extends BasePage {
 
     this.refresher = event.target;
 
+    try {
+
+      Parse.Cloud.run('getAppConfig').then(data => {
+        this.appConfig = data;
+
+        if (this.appConfig.about && this.appConfig.about.description) {
+          this.about = this.sanitizer
+          .bypassSecurityTrustHtml(this.appConfig.about.description);
+        }
+      })
+      
+    } catch (error) {
+      this.translate.get('ERROR_NETWORK').subscribe(str => this.showToast(str));
+    }
+
     Parse.Cloud.run('getHomePageData').then(data => {
       
-      this.slides = data.slides;
+      //this.slides = data.slides;
       this.categories = data.categories;
       this.itemsOnSale = data.itemsOnSale;
       this.itemsNewArrival = data.itemsNewArrival;

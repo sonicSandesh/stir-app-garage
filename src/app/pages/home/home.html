@@ -26,8 +26,11 @@
 
     <div *ngIf="isContentViewVisible">
 
+      <ion-text color="dark">
+        <h3 margin-vertical text-justify [innerHTML]="about"></h3>
+      </ion-text>
       <!-- Top Slide List -->
-      <div padding-start padding-vertical>
+      <!--<div padding-start padding-vertical>
         <ion-slides (ionSlidesDidLoad)="onSlidesDidLoad()"
           [options]="slidesConfig">
           <ion-slide *ngFor="let slide of slides">
@@ -38,7 +41,7 @@
             </div>
           </ion-slide>
         </ion-slides>
-      </div>
+      </div>-->
 
       <!-- Category List -->
 
@@ -111,8 +114,12 @@
                     <p class="bold" text-end no-margin *ngIf="!item.salePrice">
                       {{ item.price | currency : "INR"}}
                     </p>
+                    <small>
+                      <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
+                          Serving for 2
+                      </ion-text>
+                    </small>
                   </ion-text>
-
                 </ion-card-content>
               </ion-card>
 
@@ -177,6 +184,11 @@
                     <p class="bold" text-end no-margin *ngIf="!item.salePrice">
                       {{ item.price | currency : "INR"}}
                     </p>
+                    <small>
+                      <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
+                          Serving for 2
+                      </ion-text>
+                    </small>
                   </ion-text>
 
                 </ion-card-content>
@@ -244,6 +256,11 @@
                     <p class="bold" text-end no-margin *ngIf="!item.salePrice">
                       {{ item.price | currency : "INR"}}
                     </p>
+                    <small>
+                      <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
+                          Serving for 2
+                      </ion-text>
+                    </small>
                   </ion-text>
 
                 </ion-card-content>
@@ -291,6 +308,11 @@
                   <p class="bold" text-end no-margin *ngIf="!item.salePrice">
                     {{ item.price | currency : "INR"}}
                   </p>
+                  <small>
+                      <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
+                          Serving for 2
+                      </ion-text>
+                    </small>
                 </ion-text>
 
               </ion-card-content>

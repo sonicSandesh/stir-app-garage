@@ -86,6 +86,7 @@
   "FORGOT_PASSWORD": "Forgot password",
   "FORGOT_PASSWORD_HELP": "To reset your password, enter the email address you use to register and we'll send you a password reset email",
   "EMAIL_NOT_FOUND": "No user found with that email",
+  "FORGOT_PASSWORD_HELP": "Please WhatsApp us on our support number ",
   "FORGOT_PASSWORD_SUCCESS": "We've emailed you instructions for setting your password, if an account exists with the email you entered.",
   "EMAIL_INVALID": "Invalid email",
   "MY_ACCOUNT": "My account",
