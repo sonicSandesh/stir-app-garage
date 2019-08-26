@@ -131,6 +131,12 @@
                 </ion-label>
               </ion-item>
 
+              <ion-item color="light" *ngIf="order?.paymentMethod === 'Card'">
+                <ion-label>
+                  <p>{{ 'PAID_ONLINE' | translate }}</p>
+                </ion-label>
+              </ion-item>
+
               <ion-item color="light" *ngIf="order?.card">
                 <img src="./assets/imgs/{{formatBrand()}}.png" width="40" slot="start" />
                 <ion-label>
@@ -158,7 +164,7 @@
                   <p>{{ 'STATUS' | translate }}</p>
                 </ion-label>
 
-                <div class="text-medium" slot="end">
+                <div class="text-medium bold" slot="end">
                   <span *ngIf="order?.status === 'Unpaid'">{{ 'UNPAID' | translate }}</span>
                   <span *ngIf="order?.status === 'Paid'">{{ 'PAID' | translate }}</span>
                   <span *ngIf="order?.status === 'Packed'">{{ 'PACKED' | translate }}</span>
