@@ -167,8 +167,10 @@
                 <div class="text-medium bold" slot="end">
                   <span *ngIf="order?.status === 'Unpaid'">{{ 'UNPAID' | translate }}</span>
                   <span *ngIf="order?.status === 'Paid'">{{ 'PAID' | translate }}</span>
+                  <span *ngIf="order?.status === 'Preparing'">{{ 'PREPARING' | translate }}</span>
                   <span *ngIf="order?.status === 'Packed'">{{ 'PACKED' | translate }}</span>
                   <span *ngIf="order?.status === 'Shipped Out'">{{ 'SHIPPED_OUT' | translate }}</span>
+                  <span *ngIf="order?.status === 'Delivered'">{{ 'DELIVERED' | translate }}</span>
                   <span *ngIf="order?.status === 'Cancelled'">{{ 'CANCELLED' | translate }}</span>
                 </div>
               </ion-item>
