@@ -67,11 +67,6 @@ export class OrderDetailPage extends BasePage {
     const formData = Object.assign({}, this.feedbackForm.value);
     const rating:String = formData.rating;
     const feedbackText:String = formData.feedbackText;
-    const requestData = {
-            order: this.order,
-            rating: rating,
-            feedback: feedback
-    }
 
     let feedback = new Feedback;
     feedback.rating = rating;
