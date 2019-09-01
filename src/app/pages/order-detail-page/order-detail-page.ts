@@ -61,9 +61,9 @@ export class OrderDetailPage extends BasePage {
   }
 
   async onFeedbackSubmit() {
-    if (this.feedbackForm.controls.rating.invalid) {
+    /*if (this.feedbackForm.controls.rating.invalid) {
       return this.showToast('Please select rating.');
-    }
+    }*/
     const formData = Object.assign({}, this.feedbackForm.value);
 
     let feedback = new Feedback;

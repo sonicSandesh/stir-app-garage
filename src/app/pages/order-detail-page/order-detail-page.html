@@ -197,10 +197,10 @@
             <ion-list no-padding *ngIf="order?.status === 'Delivered'">
               <ion-item color="light">
                 <form [formGroup]="feedbackForm" (ngSubmit)="onFeedbackSubmit()" #form1="ngForm" novalidate>
-                  <ion-label position="stacked" color="medium">
+                  <ion-label position="stacked" color="medium" *ngIf="false">
                     <span class="bold">{{ 'RATING_TEXT' | translate }}</span>
                   </ion-label>
-                  <ion-radio-group formControlName="rating">
+                  <ion-radio-group formControlName="rating" *ngIf="false">
                     <ion-row>
                       <ion-col>
                         <ion-item color="light">
