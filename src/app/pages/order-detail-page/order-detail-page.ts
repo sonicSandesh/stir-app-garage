@@ -65,15 +65,13 @@ export class OrderDetailPage extends BasePage {
       return this.showToast('Please select rating.');
     }
     const formData = Object.assign({}, this.feedbackForm.value);
-    const rating:String = formData.rating;
-    const feedbackText:String = formData.feedbackText;
 
     let feedback = new Feedback;
-    feedback.rating = rating;
-    feedback.feedback = feedbackText;
+    feedback.rating = formData.rating;
+    feedback.feedback = formData.feedbackText;
     feedback.order = this.order;
     feedback.save();
-    return this.showToast(requestData);
+    return this.showToast('Feedback submitted successfully!');
   }
 
 }
