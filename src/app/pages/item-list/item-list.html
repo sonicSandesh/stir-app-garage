@@ -34,6 +34,9 @@
         <ion-card class="full-width no-shadow no-radius" no-margin color="light"
           (click)="goToItemPage(item)">
           <div class="image-container">
+            <span *ngIf="!item.name.includes('Roti') && item.category.name==='Indian'">
+              <strong>{{ 'ITEM_FEATURE_FLASH' | translate }}</strong>
+            </span>
             <img src="./assets/imgs/placeholder.png"
               [scrollObservable]="container.ionScroll"
               [lazyLoad]="item.featuredImageThumb?.url()" />

@@ -182,9 +182,10 @@ export class HomePage extends BasePage {
 
     Parse.Cloud.run('getHomePageData').then(data => {
       
-      //this.slides = data.slides;
+      this.slides = data.slides;
       this.categories = data.categories;
-      this.itemsOnSale = data.itemsOnSale;
+      //Below line is commented to remove on sale items from screen
+      //this.itemsOnSale = data.itemsOnSale;
       this.itemsNewArrival = data.itemsNewArrival;
       this.itemsFeatured = data.itemsFeatured;
       this.items = [];

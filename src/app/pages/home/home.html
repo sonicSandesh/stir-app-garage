@@ -31,7 +31,7 @@
         </p>
       </ion-text>
       <!-- Top Slide List -->
-      <!--<div padding-start padding-vertical>
+      <div padding-start padding-vertical>
         <ion-slides (ionSlidesDidLoad)="onSlidesDidLoad()"
           [options]="slidesConfig">
           <ion-slide *ngFor="let slide of slides">
@@ -42,7 +42,7 @@
             </div>
           </ion-slide>
         </ion-slides>
-      </div>-->
+      </div>
 
       <!-- Category List -->
 
@@ -283,6 +283,9 @@
             <ion-card no-margin class="full-width no-shadow no-radius" color="light">
 
               <div class="image-container">
+                <span *ngIf="!item.name.includes('Roti') && item.category.name==='Indian'">
+                  <strong>{{ 'ITEM_FEATURE_FLASH' | translate }}</strong>
+                </span>
                 <img src="./assets/imgs/placeholder.png" [scrollObservable]="container.ionScroll" [lazyLoad]="item.featuredImageThumb?.url()" />
                 <span *ngIf="item.salePrice">
                   {{ item.discount | percent }} {{ 'OFF' | translate }}

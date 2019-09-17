@@ -2,7 +2,7 @@ ion-card .image-container {
     position: relative;
     padding: 0;
 
-    span {
+    span:last-child{
         background: #ccc;
         padding: 3px;
         color: #333;
@@ -11,6 +11,17 @@ ion-card .image-container {
         position: absolute;
         bottom: 10px;
         left: 16px;
+    }
+
+    span:first-child {
+        background: #B22222;
+        padding: 3px;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 2px;
+        position: absolute;
+        top: 10px;
+        right: 16px;
     }
 }
 
