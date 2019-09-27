@@ -348,7 +348,7 @@ export class CheckoutPage extends BasePage {
 
   async onPlaceOrder() {
 
-    if(this.areWeServing){
+    if(!this.areWeServing){
       if(!this.isOrderScheduled) {
         return this.translate.get('SCHEDULE_ORDER_INSTRUCTIONS').subscribe(str => this.showCustomToast(str));
       }
@@ -360,6 +360,11 @@ export class CheckoutPage extends BasePage {
       } else if(!this.form.controls.scheduleSlot.value) {
         return this.translate.get('SCHEDULE_TIME_MISSING').subscribe(str => this.showCustomToast(str));
       }
+    }
+
+    if(!this.isOrderScheduled) {
+      this.form.controls.scheduleDate.setValue(null);
+      this.form.controls.scheduleSlot.setValue(null);
     }
 
     try {

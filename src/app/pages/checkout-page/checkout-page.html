@@ -70,12 +70,12 @@
           </ion-list-header>
 
           <ion-radio-group formControlName="deliverySchedule" (ionChange)="onDeliveryScheduleChange($event)">
-            <ion-item>
-              <ion-label>{{ 'DELIVER_NOW' | translate }}</ion-label>
+            <ion-item color="light">
+              <ion-label><p>{{ 'DELIVER_NOW' | translate }}</p></ion-label>
               <ion-radio value="now"></ion-radio>
             </ion-item>
-            <ion-item>
-              <ion-label>{{ 'SCHEDULE_LATER' | translate }}</ion-label>
+            <ion-item color="light">
+              <ion-label><p>{{ 'SCHEDULE_LATER' | translate }}</p></ion-label>
               <ion-radio value="scheduled"></ion-radio>
             </ion-item>
           </ion-radio-group>

@@ -192,7 +192,7 @@
   "CITY": "CITY",
   "LOCALITY":"LOCALITY",
   "ITEM_FEATURE_FLASH":"Free 6 Rotis worth Rs.48",
-  "SCHEDULE_ORDER_INSTRUCTIONS":"We are not delivering orders at this moment. You can still schedule your order.",
+  "SCHEDULE_ORDER_INSTRUCTIONS":"We are not delivering orders at this moment. Please schedule your order using 'Scheduled Delivery' option.",
   "SCHEDULE_DATE_MISSING":"Please select delivery date.",
   "SCHEDULE_TIME_MISSING":"Please select delivery slot.",
   "DELIVER_NOW":"Deliver Now",
