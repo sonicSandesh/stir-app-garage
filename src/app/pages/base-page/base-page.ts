@@ -275,6 +275,16 @@ export abstract class BasePage {
     return await toast.present();
   }
 
+   async showCustomToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'middle'
+    });
+
+    return await toast.present();
+  }
+
   async showAlert(message: string) {
   
     const okText = await this.getTrans('OK');

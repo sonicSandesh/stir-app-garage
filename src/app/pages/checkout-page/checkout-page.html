@@ -69,6 +69,29 @@
             {{ 'DELIVERY' | translate }}
           </ion-list-header>
 
+          <ion-radio-group formControlName="deliverySchedule" (ionChange)="onDeliveryScheduleChange($event)">
+            <ion-item>
+              <ion-label>{{ 'DELIVER_NOW' | translate }}</ion-label>
+              <ion-radio value="now"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>{{ 'SCHEDULE_LATER' | translate }}</ion-label>
+              <ion-radio value="scheduled"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+          <ion-item *ngIf="isOrderScheduled">
+            <ion-select formControlName="scheduleDate" placeholder="Select Date" (ionChange)="dateChanged($event)" interface="popover" role="combobox" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="ion-sel-3-lbl" class="md in-item hydrated">
+              <ion-select-option *ngFor="let delDate of deliveryDateArray" [value]="delDate">{{delDate | amDateFormat: 'DD-MMM'
+              }}</ion-select-option>
+            </ion-select>
+            <ion-select formControlName="scheduleSlot" placeholder="Select Slot" interface="popover" role="combobox" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="ion-sel-3-lbl" class="md hydrated">
+              <ion-select-option *ngFor="let timeSlot of timeSlots">{{
+                timeSlot.startMillis | amDateFormat:'hh:mmA'
+              }} - {{
+                timeSlot.endMillis | amDateFormat:'hh:mmA'
+              }}</ion-select-option>
+            </ion-select>
+          </ion-item>
           <ion-list no-padding no-margin>
             <ion-radio-group>
               <ion-item color="light" [hidden]="!address">

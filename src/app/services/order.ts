@@ -103,6 +103,32 @@ export class Order extends Parse.Object {
     this.set('instructions', val);
   }
 
+  get deliverySchedule() {
+    return this.get('deliverySchedule');
+  }
+
+  set deliverySchedule(val) {
+    this.set('deliverySchedule', val);
+  }
+
+  get scheduleDate() {
+    return this.get('scheduleDate');
+  }
+
+  set scheduleDate(val) {
+    this.set('scheduleDate', val);
+  }
+
+  get scheduleSlot() {
+    return this.get('scheduleSlot');
+  }
+
+  set scheduleSlot(val) {
+    this.set('scheduleSlot', val);
+  }
+
+
+
 }
 
 Parse.Object.registerSubclass('Order', Order);

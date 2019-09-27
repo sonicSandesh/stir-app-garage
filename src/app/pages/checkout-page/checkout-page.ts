@@ -8,6 +8,7 @@ import { CustomerAddress } from '../../services/customer-address';
 import { Card } from '../../services/card';
 import { AddressListModalPage } from '../address-list-modal/address-list';
 import { CardListModalPage } from '../card-list-modal/card-list';
+import { AppConfigService } from '../../services/app-config';
 import * as Parse from 'parse';
 //Declaring PayU's bolt
 declare var bolt : any;
@@ -30,6 +31,17 @@ export class CheckoutPage extends BasePage {
 
   public varOrder: Order;
 
+  today:string = new Date().toISOString();
+  maxScheduleDate = new Date(new Date().setDate(new Date().getDate() + 3)).toISOString();
+  public isOrderScheduled: boolean;
+
+  timeSlots: Array<any>;
+
+  deliveryDateArray: Array<string>;
+
+  public areWeServing: boolean;
+  public closedMessage: String;
+
   constructor(injector: Injector,
     private cardService: Card,
     private cartService: Cart,
@@ -39,6 +51,71 @@ export class CheckoutPage extends BasePage {
 
   ngOnInit() {
     this.setupForm();
+
+    this.deliveryDateArray = [];
+    this.populateDeliveryDateArray(0);
+  }
+
+  populateDeliveryDateArray(ind) {
+    if(ind === 0) {
+      this.deliveryDateArray.push(new Date().toISOString());
+      this.populateDeliveryDateArray(ind+1);
+    } else if(ind <= 6) {
+      this.deliveryDateArray.push(new Date(new Date().setDate(new Date().getDate() + ind)).toISOString());
+      this.populateDeliveryDateArray(ind+1);
+    }
+  }
+
+  setTimeSlots(scheduleDt) {
+    this.timeSlots = [];
+
+    let selectedSchedDate = new Date(scheduleDt);
+    let isWeekend = (selectedSchedDate.getDay() == 0 || selectedSchedDate.getDay() == 6);
+    let curDate = new Date();
+    let isSameDay = curDate.getDate() === selectedSchedDate.getDate();
+
+    if (!isSameDay) {
+      selectedSchedDate.setHours(0);
+      selectedSchedDate.setMinutes(0);
+      this.populateTimeSlots(selectedSchedDate, isWeekend);
+    } else {
+      let curMinutes = selectedSchedDate.getMinutes();
+
+      let delDate = new Date();
+      
+      if (curMinutes > 30) {
+        delDate.setHours(selectedSchedDate.getHours()+2);
+        delDate.setMinutes(0);
+      }
+      if (curMinutes <= 30) {
+        delDate.setHours(selectedSchedDate.getHours()+1);
+        delDate.setMinutes(30);
+      }
+      this.populateTimeSlots(delDate, isWeekend);
+    }
+
+    
+  }
+
+  populateTimeSlots(delDate, isWeekend) {
+    let startHour = delDate.getHours();
+    let startMin = delDate.getMinutes();
+    let starTime = startHour + ':' + startMin;
+    let starMills = delDate.toISOString();
+    delDate.setMinutes(startMin+30);
+    let endHour = delDate.getHours();
+    let endMin = delDate.getMinutes();
+    let enTime = endHour + ':' + endMin;
+    let endMills = delDate.toISOString();
+
+    if ((isWeekend && startHour>= 10 && startHour < 14 )) {
+      this.timeSlots.push({startTime:starTime,endTime:enTime,startMillis:starMills,endMillis:endMills});
+    } else if (startHour >= 18 && startHour < 22) {
+      this.timeSlots.push({startTime:starTime,endTime:enTime,startMillis:starMills,endMillis:endMills});
+    }
+    if(endHour < 22 || (endHour === 22 && endMin <= 0)) {
+      this.populateTimeSlots(delDate,isWeekend);
+    }
   }
 
   enableMenuSwipe(): boolean {
@@ -52,8 +129,12 @@ export class CheckoutPage extends BasePage {
       card: new FormControl(null),
       paymentMethod: new FormControl('Card', Validators.required),
       contactNumber: new FormControl(Parse.User.current().get('phone')),
-      instructions: new FormControl('')
+      instructions: new FormControl(''),
+      scheduleDate: new FormControl(),
+      scheduleSlot: new FormControl(),
+      deliverySchedule: new FormControl('now', Validators.required)
     });
+
   }
 
   async ionViewDidEnter() {
@@ -61,6 +142,10 @@ export class CheckoutPage extends BasePage {
     if (User.getCurrent()) {
       this.showLoadingView({ showOverlay: false });
       this.loadCart();
+      Parse.Cloud.run('areWeOpen').then((adminConfig) => {
+        this.areWeServing = adminConfig.attributes.admin.isOpen;
+        this.closedMessage = adminConfig.attributes.admin.openingAt;
+      });
     } else {
       this.showEmptyView();
     }
@@ -197,6 +282,14 @@ export class CheckoutPage extends BasePage {
     }
   }
 
+  dateChanged() {
+    this.setTimeSlots(this.form.controls.scheduleDate.value);
+  }
+
+  onDeliveryScheduleChange(event: any = {}) {
+    this.isOrderScheduled = (event.target.value == 'scheduled');
+  }
+
   prepareOrderData(): Order {
     
     const formData = Object.assign({}, this.form.value);
@@ -209,6 +302,9 @@ export class CheckoutPage extends BasePage {
     order.shipping = formData.shipping;
     order.contactNumber = formData.contactNumber;
     order.instructions = formData.instructions;
+    order.deliverySchedule = formData.deliverySchedule;
+    order.scheduleDate = formData.scheduleDate;
+    order.scheduleSlot = formData.scheduleSlot;
 
     return order;
   }
@@ -251,6 +347,20 @@ export class CheckoutPage extends BasePage {
   }
 
   async onPlaceOrder() {
+
+    if(this.areWeServing){
+      if(!this.isOrderScheduled) {
+        return this.translate.get('SCHEDULE_ORDER_INSTRUCTIONS').subscribe(str => this.showCustomToast(str));
+      }
+    }
+    if(this.isOrderScheduled) {
+      if(!this.form.controls.scheduleDate.value) {
+        return this.translate.get('SCHEDULE_DATE_MISSING').subscribe(str => 
+          this.showCustomToast(str));
+      } else if(!this.form.controls.scheduleSlot.value) {
+        return this.translate.get('SCHEDULE_TIME_MISSING').subscribe(str => this.showCustomToast(str));
+      }
+    }
 
     try {
 

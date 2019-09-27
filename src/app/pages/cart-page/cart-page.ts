@@ -18,8 +18,6 @@ export class CartPage extends BasePage {
 
   public cart: Cart;
   public isSavingCart: boolean;
-  public areWeServing: boolean;
-  public closedMessage: String;
 
   protected contentLoaded: Subject<any>;
   protected loadAndScroll: Observable<any>;
@@ -96,10 +94,6 @@ export class CartPage extends BasePage {
       this.onContentLoaded();
 
       this.onRefreshComplete(this.cart);
-      Parse.Cloud.run('areWeOpen').then((adminConfig) => {
-        this.areWeServing = adminConfig.attributes.admin.isOpen;
-        this.closedMessage = adminConfig.attributes.admin.openingAt;
-      });
       
     } catch (error) {
       this.showContentView();
