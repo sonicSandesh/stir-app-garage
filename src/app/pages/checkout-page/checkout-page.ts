@@ -41,6 +41,8 @@ export class CheckoutPage extends BasePage {
 
   public areWeServing: boolean;
   public closedMessage: String;
+  public minOrderValue: number;
+  public minOrderDelCharge: number;
 
   constructor(injector: Injector,
     private cardService: Card,
@@ -145,6 +147,8 @@ export class CheckoutPage extends BasePage {
       Parse.Cloud.run('areWeOpen').then((adminConfig) => {
         this.areWeServing = adminConfig.attributes.admin.isOpen;
         this.closedMessage = adminConfig.attributes.admin.openingAt;
+        this.minOrderValue = adminConfig.attributes.admin.minOrder;
+        this.minOrderDelCharge = adminConfig.attributes.admin.minOrderDelivery;
       });
     } else {
       this.showEmptyView();
@@ -186,7 +190,7 @@ export class CheckoutPage extends BasePage {
         this.address = addresses[0];
         this.cart.shipping = this.address;
         this.form.controls.shipping.setValue(this.address);
-        this.cart.calculateTotal();
+        this.cart.calculateTotal(this.minOrderValue,this.minOrderDelCharge);
       }
 
       this.showContentView();
@@ -236,7 +240,7 @@ export class CheckoutPage extends BasePage {
       this.address = data;
       this.cart.shipping = this.address;
       this.form.controls.shipping.setValue(this.address);
-      this.cart.calculateTotal();
+      this.cart.calculateTotal(this.minOrderValue,this.minOrderDelCharge);
     }
   }
 

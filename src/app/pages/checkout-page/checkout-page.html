@@ -172,7 +172,8 @@
             </ion-col>
             <ion-col text-end>
               <p class="text-medium">{{ cart?.subtotal | currency : "INR"}}</p>
-              <p class="text-medium">{{ (cart?.shipping?.subzone?.fee || 0) | currency : "INR"}}</p>
+              <p class="text-medium" *ngIf="cart?.subtotal > minOrderValue || cart?.subtotal == minOrderValue">{{ (cart?.shipping?.subzone?.fee || 0) | currency : "INR"}}</p>
+              <p class="text-medium" *ngIf="cart?.subtotal < minOrderValue">{{ (minOrderDelCharge) | currency : "INR"}}</p>
               <p class="text-medium" style="border-top: 1px solid">{{ cart?.total | currency : "INR"}}</p>
             </ion-col>
           </ion-row>

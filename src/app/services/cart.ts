@@ -33,16 +33,20 @@ export class Cart extends Parse.Object {
     this.subtotal = total;
   }
 
-  calculateTotal() {
+  calculateTotal(minOrderValue,minOrderDelCharge) {
     
     let total = this.items.reduce((prevVal, item) => {
       return prevVal + item.amount;
     }, 0);
 
-    if (this.shipping && this.shipping.subzone && this.shipping.subzone.fee) {
-      total += this.shipping.subzone.fee;
+    if (total >= minOrderValue) {
+      if (this.shipping && this.shipping.subzone && this.shipping.subzone.fee) {
+        total += this.shipping.subzone.fee;
+      }
+    } else {
+      total += minOrderDelCharge;
     }
-
+    
     this.total = total;
   }
 
