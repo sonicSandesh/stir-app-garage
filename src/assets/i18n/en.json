@@ -196,5 +196,9 @@
   "SCHEDULE_DATE_MISSING":"Please select delivery date.",
   "SCHEDULE_TIME_MISSING":"Please select delivery slot.",
   "DELIVER_NOW":"Deliver Now",
-  "SCHEDULE_LATER":"Scheduled delivery"
+  "SCHEDULE_LATER":"Scheduled delivery",
+  "ONLY_SCHEDULED_ITEM":"Can only be Scheduled",
+  "ORDER_HAS_NON_CURRENT_ITEM":"Your order has dishes that we deliver only when Scheduled. Please choose delivery time.",
+  "SERVES_PEOPLE_NUMBER":"Serves 2",
+  "CURRENT_DELIVERY_TIME":"Typically delivered within 60 minutes"
 }

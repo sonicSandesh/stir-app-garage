@@ -86,6 +86,10 @@ export class Cart extends Parse.Object {
     return this.get('customer');
   }
 
+  get hasScheduledItem(): any {
+    return this.get('hasScheduledItem');
+  }
+
 }
 
 Parse.Object.registerSubclass('Cart', Cart);

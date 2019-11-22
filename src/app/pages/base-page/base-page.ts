@@ -275,10 +275,10 @@ export abstract class BasePage {
     return await toast.present();
   }
 
-   async showCustomToast(message: string) {
+   async showCustomToast(message: string, duration: number) {
     const toast = await this.toastCtrl.create({
       message: message,
-      duration: 3000,
+      duration: duration,
       position: 'middle'
     });
 

@@ -26,7 +26,7 @@
 
     <div *ngIf="isContentViewVisible">
 
-      <ion-text color="medium">
+      <ion-text color="dark">
         <p padding-start class="bold custom-line-height" [innerHTML]="about">
         </p>
       </ion-text>
@@ -53,7 +53,7 @@
             [lazyLoad]="category.imageThumb?.url()"
             [scrollObservable]="loadAndScroll"></div>
           <ion-text color="dark">
-            <p class="link margin-6 text-medium">
+            <p class="link margin-6 text-medium bold">
               {{ category.name }}
             </p>
           </ion-text>
@@ -98,7 +98,7 @@
                 <ion-card-content>
 
                   <ion-text color="dark">
-                    <p class="link ellipsis text-medium">{{ item.name }}</p>
+                    <p class="bold link ellipsis text-medium">{{ item.name }}</p>
                   </ion-text>
 
                   <ion-text color="primary">
@@ -117,7 +117,7 @@
                     </p>
                     <small>
                       <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
-                          Serving for 2
+                          <span class="bold">{{ 'SERVES_PEOPLE_NUMBER' | translate }}</span>
                       </ion-text>
                     </small>
                   </ion-text>
@@ -137,9 +137,11 @@
 
         <ion-row padding-horizontal>
           <ion-col size="6" text-start>
-            <span text-uppercase>
-              {{ 'NEW_ARRIVAL' | translate }}
-            </span>
+            <ion-text color="dark">
+              <span text-uppercase class="bold">
+                {{ 'NEW_ARRIVAL' | translate }}
+              </span>
+            </ion-text>
           </ion-col>
           <ion-col size="6" text-end>
             <ion-text color="primary">
@@ -167,7 +169,7 @@
 
                 <ion-card-content>
 
-                  <p class="ellipsis link text-medium">
+                  <p class="bold ellipsis link text-medium">
                     {{ item.name }}
                   </p>
 
@@ -187,7 +189,7 @@
                     </p>
                     <small>
                       <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
-                          Serving for 2
+                          <span class="bold">{{ 'SERVES_PEOPLE_NUMBER' | translate }}</span>
                       </ion-text>
                     </small>
                   </ion-text>
@@ -240,7 +242,7 @@
                 <ion-card-content>
 
                   <ion-text color="dark">
-                    <p class="link ellipsis text-medium">{{ item.name }}</p>
+                    <p class="bold link ellipsis text-medium">{{ item.name }}</p>
                   </ion-text>
 
                   <ion-text color="primary">
@@ -259,7 +261,7 @@
                     </p>
                     <small>
                       <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
-                          Serving for 2
+                          <span class="bold">{{ 'SERVES_PEOPLE_NUMBER' | translate }}</span>
                       </ion-text>
                     </small>
                   </ion-text>
@@ -295,7 +297,7 @@
               <ion-card-content>
 
                 <ion-text color="dark">
-                  <p class="link ellipsis text-medium">{{ item.name }}</p>
+                  <p class="bold link ellipsis text-medium">{{ item.name }}</p>
                 </ion-text>
 
                 <ion-text color="primary">
@@ -314,7 +316,7 @@
                   </p>
                   <small>
                       <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
-                          Serving for 2
+                          <span class="bold">{{ 'SERVES_PEOPLE_NUMBER' | translate }}</span>
                       </ion-text>
                     </small>
                 </ion-text>

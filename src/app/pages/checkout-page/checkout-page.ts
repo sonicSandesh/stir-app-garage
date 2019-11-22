@@ -70,7 +70,6 @@ export class CheckoutPage extends BasePage {
 
   setTimeSlots(scheduleDt) {
     this.timeSlots = [];
-
     let selectedSchedDate = new Date(scheduleDt);
     let isWeekend = (selectedSchedDate.getDay() == 0 || selectedSchedDate.getDay() == 6);
     let curDate = new Date();
@@ -169,6 +168,11 @@ export class CheckoutPage extends BasePage {
       this.cart = await this.cartService.getOne();
 
       if (this.cart && !this.cart.empty()) {
+        if(this.cart.hasScheduledItem === true) {
+            this.form.controls.deliverySchedule.setValue('scheduled');
+            this.isOrderScheduled = true;
+            this.translate.get('ORDER_HAS_NON_CURRENT_ITEM').subscribe(str => this.showCustomToast(str, 4500));
+        }
         this.loadAddresses();
       } else {
         this.showEmptyView();
@@ -354,15 +358,15 @@ export class CheckoutPage extends BasePage {
 
     if(!this.areWeServing){
       if(!this.isOrderScheduled) {
-        return this.translate.get('SCHEDULE_ORDER_INSTRUCTIONS').subscribe(str => this.showCustomToast(str));
+        return this.translate.get('SCHEDULE_ORDER_INSTRUCTIONS').subscribe(str => this.showCustomToast(str,3000));
       }
     }
     if(this.isOrderScheduled) {
       if(!this.form.controls.scheduleDate.value) {
         return this.translate.get('SCHEDULE_DATE_MISSING').subscribe(str => 
-          this.showCustomToast(str));
+          this.showCustomToast(str,3000));
       } else if(!this.form.controls.scheduleSlot.value) {
-        return this.translate.get('SCHEDULE_TIME_MISSING').subscribe(str => this.showCustomToast(str));
+        return this.translate.get('SCHEDULE_TIME_MISSING').subscribe(str => this.showCustomToast(str,3000));
       }
     }
 

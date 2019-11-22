@@ -70,7 +70,7 @@
 
         <div *ngIf="isContentViewVisible">
 
-          <ion-row>
+          <ion-row class="bg-light">
             <ion-col size-xs="12" size-lg="6">
               <!-- Slide List -->
               <div class="border-light" padding>
@@ -112,9 +112,9 @@
             </ion-col>
           </ion-row>
 
-          <ion-row margin-vertical class="bg-light">
+          <ion-row margin-vertical>
             <ion-col>
-              <div padding>
+              <div padding class="item-description">
                 <div text-justify [innerHTML]="itemDescription"></div>
               </div>
             </ion-col>

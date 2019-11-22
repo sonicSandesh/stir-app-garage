@@ -37,7 +37,7 @@
               <ion-row align-items-center>
                 <ion-col size-xs="12" size-md="9">
                   <ion-text color="dark">
-                    <p>{{ item.name }}</p>
+                    <p class="font-lato-bold">{{ item.name }}</p>
                     <p *ngIf="item.salePrice">
                       <span class="bold">{{ item.salePrice | currency : "INR"}}&nbsp;</span>
                       <ion-text color="medium">
@@ -54,7 +54,7 @@
                     <ion-button fill="clear" (click)="decrementQuantity(item); $event.stopPropagation()">
                       <ion-icon name="ios-remove-circle-outline" slot="icon-only" color="dark"></ion-icon>
                     </ion-button>
-                    <span class="label-quantity">{{ item.qty }}</span>
+                    <span class="label-quantity font-lato-bold">{{ item.qty }}</span>
                     <ion-button fill="clear" (click)="incrementQuantity(item); $event.stopPropagation()">
                       <ion-icon name="ios-add-circle-outline" slot="icon-only" color="dark"></ion-icon>
                     </ion-button>
@@ -68,13 +68,13 @@
       </ion-col>
       <ion-col size-xs="12" size-lg="4">
         <div class="bg-light" padding margin>
-          <h5 no-margin>{{ 'ORDER_SUMMARY' | translate }}</h5>
+          <h5 no-margin class="font-lato-bold">{{ 'ORDER_SUMMARY' | translate }}</h5>
           <div text-center>
-            <p>{{ 'TOTAL' | translate }}: {{ cart?.subtotal | currency : "INR"}}</p>
+            <p class="font-lato">{{ 'TOTAL' | translate }}: <span class="font-lato-bold">{{ cart?.subtotal | currency : "INR"}}</span></p>
             <ion-button size="medium" shape="round" color="primary" [disabled]="cart?.empty() || !cart || isSavingCart"
               (click)="goToCheckout()">
               <ion-spinner color="light" *ngIf="isSavingCart"></ion-spinner>
-              <span *ngIf="!isSavingCart">{{ 'CHECKOUT' | translate }}</span>
+              <span *ngIf="!isSavingCart" class="font-lato-bold">{{ 'CHECKOUT' | translate }}</span>
             </ion-button>
             <p style="color:red;">{{closedMessage}}</p>
 

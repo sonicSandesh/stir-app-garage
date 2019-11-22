@@ -24,7 +24,7 @@
         <form [formGroup]="form" (ngSubmit)="onPlaceOrder()" #form1="ngForm" novalidate>
 
           <ion-item-group margin-vertical>
-            <ion-list-header color="primary" text-center>
+            <ion-list-header color="primary" text-center class="font-lato-bold">
               {{ 'ORDER_SUMMARY' | translate }}
             </ion-list-header>
 
@@ -36,23 +36,27 @@
                   [src]="item.featuredImageThumb?.url()" />
               </ion-thumbnail>
               <ion-label text-wrap>
-                <p>{{ item.qty }} x {{ item.name }}</p>
+                <p>{{ item.qty }} x <span class="font-lato-bold">{{ item.name }}</span>
+                  <ion-text color="primary" *ngIf="!item.isAvailableForCurrent" class="font-lato">
+                        ({{ 'ONLY_SCHEDULED_ITEM' | translate}})
+                  </ion-text>
+                </p>
 
                 <ion-text color="dark">
                   <p class="bold" *ngIf="item.salePrice">
-                    <span>{{ item.salePrice | currency : "INR" }}&nbsp;</span>
-                    <ion-text color="medium">
+                    <span class="font-lato-bold">{{ item.salePrice | currency : "INR" }}&nbsp;</span>
+                    <ion-text color="medium" class="font-lato">
                       <s>{{ item.price | currency : "INR"}}</s>
                     </ion-text>
                   </p>
-                  <p class="bold" *ngIf="!item.salePrice">
+                  <p class="bold" *ngIf="!item.salePrice" class="font-lato-bold">
                     {{ item.price | currency : "INR"}}
                   </p>
                 </ion-text>
 
               </ion-label>
               <div slot="end">
-                <ion-text color="dark">
+                <ion-text color="dark" class="font-lato-bold">
                   <p class="bold">
                     {{ item.amount | currency : "INR"}}
                   </p>
@@ -62,20 +66,20 @@
           </ion-item-group>
 
           <ion-item margin-vertical lines="none" color="light">
-            <ion-textarea rows="2" formControlName="instructions" [placeholder]="'SUGGESTIONS' | translate"></ion-textarea>
+            <ion-textarea rows="2" class="font-lato" formControlName="instructions" [placeholder]="'SUGGESTIONS' | translate"></ion-textarea>
           </ion-item>
           
-          <ion-list-header color="primary">
+          <ion-list-header color="primary" class="font-lato-bold">
             {{ 'DELIVERY' | translate }}
           </ion-list-header>
 
           <ion-radio-group formControlName="deliverySchedule" (ionChange)="onDeliveryScheduleChange($event)">
-            <ion-item color="light">
-              <ion-label><p>{{ 'DELIVER_NOW' | translate }}</p></ion-label>
+            <ion-item color="light" *ngIf="!cart.hasScheduledItem">
+              <ion-label><p class="font-lato">{{ 'DELIVER_NOW' | translate }}<span class="text-medium"> - {{ 'CURRENT_DELIVERY_TIME' | translate }}</span></p></ion-label>
               <ion-radio value="now"></ion-radio>
             </ion-item>
             <ion-item color="light">
-              <ion-label><p>{{ 'SCHEDULE_LATER' | translate }}</p></ion-label>
+              <ion-label><p class="font-lato">{{ 'SCHEDULE_LATER' | translate }}</p></ion-label>
               <ion-radio value="scheduled"></ion-radio>
             </ion-item>
           </ion-radio-group>
@@ -96,10 +100,10 @@
             <ion-radio-group>
               <ion-item color="light" [hidden]="!address">
                 <ion-label>
-                  <p>{{ address }}</p>
+                  <p class="font-lato">{{ address }}</p>
                 </ion-label>
                 <ion-radio [checked]="address" [value]="address"></ion-radio>
-                <ion-button class="z-index-10" type="button"
+                <ion-button class="z-index-10 font-lato" type="button"
                   size="small" color="primary" fill="clear" slot="end"
                   (click)="onChangeAddress()">
                   {{ 'CHANGE' | translate }}
@@ -108,7 +112,7 @@
 
               <ion-item color="light" *ngIf="!address" (click)="onChangeAddress()">
                 <ion-label>
-                  <p>{{ 'ADD_ADDRESS' | translate }}</p>
+                  <p class="font-lato">{{ 'ADD_ADDRESS' | translate }}</p>
                 </ion-label>
                 <ion-icon name="arrow-forward" color="dark" slot="end"></ion-icon>
               </ion-item>
@@ -118,13 +122,13 @@
 
           <ion-item lines="none" color="light">
             <ion-icon name="call" slot="start" color="primary"></ion-icon>
-            <ion-input type="tel" formControlName="contactNumber" [placeholder]="'CONTACT_NUMBER' | translate">
+            <ion-input type="tel" class="font-lato" formControlName="contactNumber" [placeholder]="'CONTACT_NUMBER' | translate">
             </ion-input>
           </ion-item>
 
 
           <ion-item-group margin-vertical>
-            <ion-list-header color="primary">
+            <ion-list-header color="primary" class="font-lato-bold">
               {{ 'PAYMENT' | translate }}
             </ion-list-header>
             <ion-list no-padding no-margin>
@@ -133,7 +137,7 @@
                 formControlName="paymentMethod">
                 <ion-item color="light" lines="none">
                   <ion-label>
-                    <p class="flex align-items-center">
+                    <p class="flex align-items-center" class="font-lato">
                       <span *ngIf="!card">{{ 'PAY_ONLINE' | translate }}</span>
                       <img src="./assets/imgs/{{card.formatBrand()}}.png" width="40" *ngIf="card" />
                       <span [innerHTML]="card" *ngIf="card"></span>
@@ -150,7 +154,7 @@
                 </ion-item>
                 <ion-item color="light">
                   <ion-label>
-                    <p>{{ 'PAY_ON_DELIVERY' | translate }}</p>
+                    <p class="font-lato">{{ 'PAY_ON_DELIVERY' | translate }}</p>
                   </ion-label>
                   <ion-radio value="Cash"></ion-radio>
                 </ion-item>
@@ -163,25 +167,25 @@
       <ion-col size-xs="12" size-lg="4">
         
         <div class="bg-light" padding margin-top>
-          <h5 no-margin>{{ 'BILL_DETAILS' | translate }}</h5>
+          <h5 no-margin class="font-lato-bold">{{ 'BILL_DETAILS' | translate }}</h5>
           <ion-row>
-            <ion-col>
+            <ion-col class="font-lato">
               <p class="text-medium">{{ 'SUBTOTAL' | translate }}</p>
               <p class="text-medium">{{ 'DELIVERY_FEE' | translate }}</p>
-              <p class="text-medium" style="border-top: 1px solid">{{ 'TOTAL' | translate }}</p>
+              <p class="text-medium font-lato-bold" style="border-top: 1px solid">{{ 'TOTAL' | translate }}</p>
             </ion-col>
             <ion-col text-end>
-              <p class="text-medium">{{ cart?.subtotal | currency : "INR"}}</p>
-              <p class="text-medium" *ngIf="cart?.subtotal > minOrderValue || cart?.subtotal == minOrderValue">{{ (cart?.shipping?.subzone?.fee || 0) | currency : "INR"}}</p>
-              <p class="text-medium" *ngIf="cart?.subtotal < minOrderValue">{{ (minOrderDelCharge) | currency : "INR"}}</p>
-              <p class="text-medium" style="border-top: 1px solid">{{ cart?.total | currency : "INR"}}</p>
+              <p class="text-medium font-lato" >{{ cart?.subtotal | currency : "INR"}}</p>
+              <p class="text-medium font-lato" *ngIf="cart?.subtotal > minOrderValue || cart?.subtotal == minOrderValue">{{ (cart?.shipping?.subzone?.fee || 0) | currency : "INR"}}</p>
+              <p class="text-medium font-lato" *ngIf="cart?.subtotal < minOrderValue">{{ (minOrderDelCharge) | currency : "INR"}}</p>
+              <p class="text-medium font-lato-bold" style="border-top: 1px solid">{{ cart?.total | currency : "INR"}}</p>
             </ion-col>
           </ion-row>
           <div text-center>
             <ion-button text-uppercase shape="round" color="primary" [disabled]="isCreatingOrder || !form.valid"
               (click)="form1.ngSubmit.emit()">
               <ion-spinner color="light" *ngIf="isCreatingOrder"></ion-spinner>
-              <span *ngIf="!isCreatingOrder">{{ 'PLACE_ORDER' | translate }}</span>
+              <span *ngIf="!isCreatingOrder" class="font-lato-bold">{{ 'PLACE_ORDER' | translate }}</span>
             </ion-button>
             <!--<p><small>{{ 'TRANSACTION_NOTICE' | translate }}</small></p>
             <img src="./assets/imgs/mastercard.png" width="40" />
