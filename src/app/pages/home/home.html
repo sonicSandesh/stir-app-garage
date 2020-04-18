@@ -1,10 +1,22 @@
 <ion-header no-border>
   <ion-toolbar color="primary" fixed>
-    <div slot="start">
+    <ion-grid>
+      <ion-row>
+          <ion-col size="4" text-start>
+            <img class="logo" src="./assets/imgs/logo.png" height="35"/>
+          </ion-col>
+          <ion-col size="8" text-start>
+            <span class="bold text-xtra-large">StirPot</span>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+    
+
+    <!--<div slot="start">
       <img class="logo" src="./assets/imgs/logo.png" height="35" />
     </div>
     <ion-searchbar color="secondary" no-padding padding-horizontal mode="ios" showCancelButton="false" (keyup.enter)="onSearch($event)" [placeholder]="'SEARCH_PLACEHOLDER' | translate">
-    </ion-searchbar>
+    </ion-searchbar>-->
 
   </ion-toolbar>
 </ion-header>
@@ -26,12 +38,16 @@
 
     <div *ngIf="isContentViewVisible">
 
-      <ion-text color="dark">
+      <img src="./assets/imgs/Intro.png">
+      <!--<ion-text color="dark">
         <p padding-start class="bold custom-line-height" [innerHTML]="about">
         </p>
-      </ion-text>
+      </ion-text>-->
       <!-- Top Slide List -->
       <div padding-start padding-vertical>
+        <p class="bold text-large font-lato-bold">
+          How Meal-Kits Work?
+        </p>
         <ion-slides (ionSlidesDidLoad)="onSlidesDidLoad()"
           [options]="slidesConfig">
           <ion-slide *ngFor="let slide of slides">
@@ -45,7 +61,7 @@
       </div>
 
       <!-- Category List -->
-
+      <!--
       <ion-row class="light-bg" padding *ngIf="categories.length" [@staggerIn]="categories.length">
         <ion-col text-center size-xs="3" *ngFor="let category of categories" (click)="onCategoryTouched(category)">
           <div class="circle bg-img" defaultImage="./assets/imgs/placeholder.png"
@@ -59,7 +75,7 @@
           </ion-text>
 
         </ion-col>
-      </ion-row>
+      </ion-row>-->
 
       <!-- On Sale -->
 
@@ -145,7 +161,7 @@
           </ion-col>
           <ion-col size="6" text-end>
             <ion-text color="primary">
-              <span class="link" text-uppercase (click)="onViewAll({ new: 1 })">
+              <span class="link" text-uppercase class="bold" (click)="onViewAll({ new: 1 })">
                 {{ 'VIEW_ALL' | translate }}
               </span>
             </ion-text>
@@ -211,13 +227,13 @@
 
         <ion-row padding-horizontal>
           <ion-col size="6" text-start>
-            <span text-uppercase>
+            <span text-uppercase class="bold">
               {{ 'FEATURED' | translate }}
             </span>
           </ion-col>
           <ion-col size="6" text-end>
             <ion-text color="primary">
-              <span class="link" text-uppercase (click)="onViewAll({ featured: 1 })">
+              <span class="link" text-uppercase class="bold" (click)="onViewAll({ featured: 1 })">
                 {{ 'VIEW_ALL' | translate }}
               </span>
             </ion-text>
@@ -280,48 +296,76 @@
 
       <div margin-vertical>
         <ion-row>
-          <ion-col size-xs="6" size-sm="4" size-md="3" *ngFor="let item of items" (click)="goToItemPage(item)">
+          <ion-col size-xs="12" size-sm="12" size-md="4" *ngFor="let item of items" (click)="goToItemPage(item)">
 
             <ion-card no-margin class="full-width no-shadow no-radius" color="light">
+               <ion-grid no-padding fixed>
+                <ion-row>
+                  <ion-col size-xs="4" size-sm="4" size-md="6">
+                    <div class="image-container">
+                      <!--<span *ngIf="!item.name.includes('Roti') && item.category.name==='Indian'">
+                        <strong>{{ 'ITEM_FEATURE_FLASH' | translate }}</strong>
+                      </span>-->
+                      <img src="./assets/imgs/placeholder.png" [scrollObservable]="container.ionScroll" [lazyLoad]="item.featuredImageThumb?.url()" />
+                      <span *ngIf="item.salePrice">
+                        {{ item.discount | percent }} {{ 'OFF' | translate }}
+                      </span>
+                    </div>
+                  </ion-col>
+                  <ion-col size-xs="8" size-sm="8" size-md="6" >
+                    <ion-text color="dark">
+                      <p class="ellipsis">
+                        <span class="bold link text-large" > {{ item.name }}</span><br>
+                        <small>
+                          <span class="bold">{{item.category.name}}</span>
+                        </small>
+                      </p>
+                    </ion-text>
 
-              <div class="image-container">
-                <span *ngIf="!item.name.includes('Roti') && item.category.name==='Indian'">
-                  <strong>{{ 'ITEM_FEATURE_FLASH' | translate }}</strong>
-                </span>
-                <img src="./assets/imgs/placeholder.png" [scrollObservable]="container.ionScroll" [lazyLoad]="item.featuredImageThumb?.url()" />
-                <span *ngIf="item.salePrice">
-                  {{ item.discount | percent }} {{ 'OFF' | translate }}
-                </span>
-              </div>
-
-              <ion-card-content>
-
-                <ion-text color="dark">
-                  <p class="bold link ellipsis text-medium">{{ item.name }}</p>
-                </ion-text>
-
-                <ion-text color="primary">
-                  <p text-end no-margin *ngIf="item.salePrice">
-                    <span class="bold">{{ item.salePrice | currency : "INR"}}&nbsp;</span>
-                    <small>
-                      <ion-text color="medium">
-                        <s class="bold" ion-text color="gray">
-                          {{ item.price | currency : "INR"}}
-                        </s>
-                      </ion-text>
-                    </small>
-                  </p>
-                  <p class="bold" text-end no-margin *ngIf="!item.salePrice">
-                    {{ item.price | currency : "INR"}}
-                  </p>
-                  <small>
-                      <ion-text color="dark" *ngIf="!item.name.includes('Roti')">
-                          <span class="bold">{{ 'SERVES_PEOPLE_NUMBER' | translate }}</span>
-                      </ion-text>
-                    </small>
-                </ion-text>
-
-              </ion-card-content>
+                    <ion-text color="primary">
+                      <p *ngIf="item.salePrice">
+                        <span class="bold">{{ item.salePrice | currency : "INR"}}&nbsp;</span>
+                        <small>
+                          <ion-text color="medium">
+                            <s class="bold" ion-text color="gray">
+                              {{ item.price | currency : "INR"}}
+                            </s>
+                          </ion-text>
+                          <span *ngIf="!item.name.includes('Roti') && item.category.name==='Indian'">
+                              ({{ 'ITEM_FEATURE_FLASH' | translate }})
+                            </span>
+                        </small>
+                      </p>
+                      <p class="bold" *ngIf="!item.salePrice">
+                        {{ item.price | currency : "INR"}}
+                      </p>
+                    </ion-text>
+                    <div style="border-top: 1px solid #d7d8da" *ngIf="!item.name.includes('Roti')">
+                      <ion-grid no-padding fixed>
+                        <ion-row>
+                          <ion-col size-xs="7" size-sm="7" size-md="6">
+                            <small>
+                              <ion-text color="dark" >
+                                  <!--<ion-icon name="time"></ion-icon>&nbsp;<span class="bold">{{item.duration}} {{ 'COOKING_DURATION' | translate }}</span>-->
+                                  <ion-icon name="time"></ion-icon>&nbsp;<span class="bold">12 {{ 'COOKING_DURATION' | translate }}</span>
+                              </ion-text>
+                            </small>
+                          </ion-col>
+                          <ion-col size-xs="5" size-sm="5" size-md="6">
+                            <small>
+                              <ion-text color="dark" >
+                                  <ion-icon name="people"></ion-icon>&nbsp;<span class="bold">{{ 'SERVES_PEOPLE_NUMBER' | translate }}</span>
+                              </ion-text>
+                            </small>
+                          </ion-col>
+                        </ion-row>
+                      </ion-grid>
+                    </div>
+                    
+                  </ion-col>
+                </ion-row>
+               </ion-grid>
+                
             </ion-card>
 
           </ion-col>

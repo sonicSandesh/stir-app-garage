@@ -1,6 +1,6 @@
 {
-  "APP_NAME": "Stirpot",
-  "APP_DESCRIPTION": "Stirot webapp",
+  "APP_NAME": "Top Meal Kit Delivery Service For Home Cooking | StirPot",
+  "APP_DESCRIPTION": "Top Meal Kit Delivery Service For Home Cooking | StirPot",
   "HOME": "Home",
   "PROFILE": "Profile",
   "SETTINGS": "Settings",
@@ -168,7 +168,7 @@
   "WELCOME_BACK": "Welcome",
   "WELCOME_TEXT": "To keep connected with us please login with your email id",
   "SHARE_THIS": "Share this",
-  "SEARCH_PLACEHOLDER": "Search products...",
+  "SEARCH_PLACEHOLDER": "Search dishes...",
   "CHOOSE_THIS_ADDRESS": "Choose this address",
   "CHOOSE_THIS_CARD": "Choose this card",
   "TRANSACTION_NOTICE": "Your transaction is safe and secure.",
@@ -200,5 +200,6 @@
   "ONLY_SCHEDULED_ITEM":"Can only be Scheduled",
   "ORDER_HAS_NON_CURRENT_ITEM":"Your order has dishes that we deliver only when Scheduled. Please choose delivery time.",
   "SERVES_PEOPLE_NUMBER":"Serves 2",
-  "CURRENT_DELIVERY_TIME":"Typically delivered within 60 minutes"
+  "CURRENT_DELIVERY_TIME":"Typically delivered within 60 minutes",
+  "COOKING_DURATION":"mins approx."
 }
