@@ -60,6 +60,12 @@
         </ion-slides>
       </div>
 
+      <div padding text-center>
+        <ion-button shape="round" color="primary" text-center (click)="onChoosePlan()">
+          <span class="bold text-large">Choose My Plan</span>
+        </ion-button>
+      </div>
+
       <!-- Category List -->
       <!--
       <ion-row class="light-bg" padding *ngIf="categories.length" [@staggerIn]="categories.length">
@@ -376,9 +382,13 @@
       <ion-infinite-scroll (ionInfinite)="onLoadMore($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
-
+      <div padding text-center>
+        <ion-button shape="round" color="primary" text-center (click)="onChoosePlan()">
+          <span class="bold text-large">Choose My Plan</span>
+        </ion-button>
+      </div>
     </div>
-
+    
     <section *ngIf="isLoadingViewVisible">
       <div padding>
         <ngx-skeleton-loader count="1" [theme]="{ width: '100%', height: '250px', 'border-radius': '4px' }">

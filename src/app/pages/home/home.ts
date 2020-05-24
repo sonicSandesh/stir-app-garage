@@ -8,6 +8,7 @@ import { Category } from '../../services/category';
 import { SubCategory } from '../../services/sub-category';
 import { Subject, Observable, merge } from 'rxjs';
 import { AppConfigService } from '../../services/app-config';
+import { ChoosePlanPage } from '../choose-plan/choose-plan';
 import {
   trigger,
   style,
@@ -250,6 +251,23 @@ export class HomePage extends BasePage {
 
   goToItemPage(item: Item) {
     this.navigateTo(this.currentPath + '/items/' + item.slug);
+  }
+
+  async onChoosePlan() {
+    try {
+      return this.loadChoosePlanModal();
+    } catch(err) {
+
+    }
+
+  }
+
+  async loadChoosePlanModal() {
+    const modal = await this.modalCtrl.create({
+      component: ChoosePlanPage
+    });
+
+    return await modal.present();
   }
 
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HomePage } from './home';
 import { SharedModule } from '../../shared.module';
+import { ChoosePlanPageModule } from '../choose-plan/choose-plan.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { SharedModule } from '../../shared.module';
         component: HomePage
       }
     ]),
-    SharedModule
+    SharedModule,
+    ChoosePlanPageModule
   ],
 })
 export class HomePageModule { }
