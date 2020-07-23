@@ -72,7 +72,7 @@
     "ngx-img-fallback": "^1.3.3",
     "ngx-skeleton-loader": "^1.1.2",
     "ngx-stripe": "^7.2.0",
-    "parse": "^2.1.0",
+    "parse": "^2.10.0",
     "parse-push-plugin": "git+https://github.com/fmendoza/parse-push-plugin.git#cordova-android-7",
     "rxjs": "~6.3.3",
     "stream": "0.0.2",
